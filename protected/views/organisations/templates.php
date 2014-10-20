@@ -112,7 +112,7 @@ $userid=Yii::app()->user->id;
 		                <img src="<?php echo $thumbnailSrc; ?>" />
 		            </div>					
 		            <div class="reader_book_card_info_container">
-		                <div class="editor_mybooks_book_type tip" data-original-title="<?php _e('Çalışma alanının adı') ?>">Şablon</div>
+		                <!--<div class="editor_mybooks_book_type tip" data-original-title="<?php _e('Çalışma alanının adı') ?>">Şablon</div>-->
 		                <div class="clearfix"></div>			
 		                <div class="reader_market_book_name tip" data-original-title="<?php _e('Kitabın adı') ?>"></i>
 		                	<?php echo ($userType==='owner' || $userType==='editor') ? '<a href="/book/author/'.$book->book_id.'">':'' ;?>

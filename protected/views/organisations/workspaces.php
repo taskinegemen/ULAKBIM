@@ -118,7 +118,7 @@ function sendUser(e){
 	jQuery(document).ready(function() {		
 		App.setPage("gallery");  //Set current page
 		App.init(); //Initialise plugins and elements
-
+		$('#li_categories').addClass('current');
 		$('#acl_info_box_event').click(function(){
 			var box=$('#acl_info_box');
 			console.log(box.css('display'));
@@ -317,7 +317,7 @@ function sendUser(e){
 
 				<a class="fa fa-times-circle close tip" data-original-title="<?php _e('Çalışma alanını sil') ?>" data-id="<?php echo $workspace['workspace_id']; ?>" style="margin-right:5px" data-toggle="modal" data-target="#confirmation"></a>
 				<a class="fa fa-edit close tip" data-original-title="<?php _e('Çalışma alanını düzenle') ?>" data-id="<?php echo base64_encode(json_encode($workspace_data)); ?>" style="margin-right:5px" data-toggle="modal" data-target="#addWorkspace"></a>
-				<a class="fa fa-users close tip" data-original-title="<?php _e('Çalışma alanı kullanıcılarını düzenle') ?>" data-id="pop-<?php echo $workspace['workspace_id']; ?>" style="margin-right:5px" data-toggle="modal" data-target="#pop-<?php echo $workspace['workspace_id']; ?>"></a>
+				<!--<a class="fa fa-users close tip" data-original-title="<?php _e('Çalışma alanı kullanıcılarını düzenle') ?>" data-id="pop-<?php echo $workspace['workspace_id']; ?>" style="margin-right:5px" data-toggle="modal" data-target="#pop-<?php echo $workspace['workspace_id']; ?>"></a>-->
 
 				<p></p>
 

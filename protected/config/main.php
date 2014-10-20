@@ -30,6 +30,13 @@ $db_config_list=array(
                         			'password' => '7GqA3Pqcy38QnfPQ',
                         			'charset' => 'utf8',
                 			),
+			"other"=>array(
+                        			'connectionString' => 'mysql:host=localhost;port=3306;dbname=ulakbim_editor',
+                        			'emulatePrepare' => true,
+                        			'username' => 'root',
+                        			'password' => '12548442',
+                        			'charset' => 'utf8',
+                			),
 );      
 
 $catalogURL=array(
@@ -169,7 +176,7 @@ return array(
 		),
 		*/
 		
-		'db'=>$db_config_list[gethostname()],		
+		'db'=>$db_config_list["other"],		
 
 
 		'errorHandler'=>array(
