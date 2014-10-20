@@ -34,6 +34,5 @@ $flb = new FloodBlocker ("/tmp/");
     }
   else
     die ( 'Too many requests! Please try later.' );
-
 Yii::createWebApplication($config)->run();
 
