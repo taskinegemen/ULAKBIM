@@ -9222,7 +9222,7 @@ ul.stats li small {
 
 .reader_book_card {
 	width:198px;
-	height:400px;
+	height:380px;
 	background-color:#fff;
 	-webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 	box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -9242,7 +9242,7 @@ ul.stats li small {
 
 .reader_book_card_info_container {
 	width:198px;
-	height:108px;
+	height:72px;
 	position:absolute;
 }
 

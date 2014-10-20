@@ -68,7 +68,7 @@
 					<ul class="dropdown-menu">
 						<li><a href="/user/profile"><i class="fa fa-user"></i> <?php _e('Profil') ?></a></li>
 						<li><a href="#" onClick='tripStart();'><i class="fa fa-question"></i> <?php _e('Yardım') ?></a></li>
-						<li><a href="/site/logout"><i class="fa fa-power-off"></i> <?php _e('Çıkış') ?></a></li>
+						<!--<li><a href="/site/logout"><i class="fa fa-power-off"></i> <?php _e('Çıkış') ?></a></li>-->
 					</ul>
 				</li>
 				<!-- /user login dropdown -->
@@ -88,12 +88,12 @@
 			<div class="sidebar-menu nav-collapse">
 				<!--=== Navigation ===-->
 				<ul>
-					<li id="li_dashboard">
+					<!--<li id="li_dashboard">
 						<a href="/site/dashboard">
 							<i class="fa fa-cogs fa-fw"></i>
 							<span class="menu-text">Genel Bakış</span>
 							</a>
-					</li>
+					</li>-->
 					<li id="li_book">
 						<a href="/site/index">
 							<i class="fa fa-book fa-fw"></i> <span class="menu-text">
@@ -108,13 +108,13 @@
 						</a>
 					</li>
 					-->
-					<li id="li_faq">
+					<!--<li id="li_faq">
 						<a href="/faq">
 							<i class="fa fa-medkit fa-fw"></i> <span class="menu-text">
 							Destek
 						</span>
 						</a>
-					</li>
+					</li>-->
 					
 					<li id="li_profile">
 						<a href="/user/profile">
@@ -149,7 +149,7 @@
 					<?php if(!empty($templates)) { 
 							if (count($templates)==1) {
 								?>
-								<li>
+								<li id="li_templates">
 									<a href="/organisations/templates/<?php echo $templates[0]; ?>">
 										<i class="fa fa-clipboard fa-fw"></i> <span class="menu-text">
 										<?php _e('Şablonlar'); ?>
@@ -215,7 +215,7 @@
 								    ->queryRow();
 							?>
 							
-							<li class="has-sub" id="li_<?php echo $organisation_name["organisation_id"]; ?>">
+							<!--<li class="has-sub" id="li_<?php echo $organisation_name["organisation_id"]; ?>">
 								<a href="javascript:;" class="">
 									<i class="fa fa-briefcase fa-fw"></i>
 									<span class="menu-text"><?php 
@@ -270,6 +270,14 @@
 								</ul>
 								
 								
+							</li>-->
+							<li id="li_categories">
+								<a href="/organisations/workspaces?organizationId=<?php echo $organisation["organisation_id"]; ?>">
+									<i class="fa fa-th-list fa-fw"></i> <span class="menu-text"> <!--fa fa-user fa-fw-->
+
+									<?php _e('Çalışma alanları'); ?>
+								</span>
+								</a>
 							</li>
 							<?php } ;
 						};

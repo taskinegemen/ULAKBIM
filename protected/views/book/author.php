@@ -240,9 +240,8 @@ if($chapter_list)
 			   <li class='has-sub'><a href='#'><span>Dosya</span></a>
 					<ul>
 			         <li><a href="<?php echo $this->createUrl('site/index');  ?>"><span><i class="icon-book"></i>Kitaplarım</span></a></li>
-			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportPdfBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("PDF Olarak Aktar"); ?></i></a></li>
-			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("ePub Olarak Aktar"); ?></i></a></li>
-			         <li><a href="<?php echo $this->createUrl("EditorActions/publishBook/", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("Kütüphanede Yayınla"); ?></i></a></li>
+			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportPdfBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("PDF İndir"); ?></i></a></li>
+			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("EPub indir"); ?></i></a></li>
                
 			         <!--<li>
 			         	<?php
@@ -270,8 +269,8 @@ if($chapter_list)
 
 			   <li class='has-sub'><a href='#'><span><?php _e('Görünüm') ?> </span></a>
 					<ul>
-				     <li class="onoff"><a href='#'  ><input type="checkbox" name="cetvel" id="cetvelcheck" class="css-checkbox" /><label for="cetvelcheck" class="css-label"><?php _e('Cetvel') ?></label></a></li>
-			         <li class="onoff"><a href='#'  ><input type="checkbox" name="rehber" id="rehbercheck" class="css-checkbox" /><label for="rehbercheck" class="css-label"><?php _e('Rehber') ?></label></a></li>
+				     <li class="onoff"><a href='#'  ><input type="checkbox" name="cetvel" id="cetvelcheck" class="css-checkbox" /><label style="font-weight:normal;" for="cetvelcheck" class="css-label"><?php _e('Cetvel') ?></label></a></li>
+			         <li class="onoff"><a href='#'  ><input type="checkbox" name="rehber" id="rehbercheck" class="css-checkbox" /><label style="font-weight:normal;" for="rehbercheck" class="css-label"><?php _e('Rehber') ?></label></a></li>
 			         <!--<li class="onoff"><a href='#'  ><input type="checkbox" name="grid" id="gridcheck" class="css-checkbox" /><label for="gridcheck" class="css-label"><?php _e('Grid') ?></label></a></li>-->
 			         <!--<li class="onoff"><a href='#'  ><input type="checkbox" name="yorumlar" id="yorumlarcheck" class="css-checkbox" /><label for="yorumlarcheck" class="css-label"><?php _e('Yorumlar') ?></label></a></li>-->
 			        </ul>
@@ -304,7 +303,6 @@ if($chapter_list)
 			      	<?php if (!Yii::app()->user->isGuest) {?>
 			         <li><a href='/user/profile'><span><?php _e('Profil') ?></span></a></li>
 			         <li><a href='#' onClick='tripStart();'><span><?php _e('Yardım') ?></span></a></li>
-			         <?php echo " <li>". CHtml::link(__("Çıkış"),"/site/logout") ."</li>"; ?>
 					<?php 
 						// foreach (Yii::app()->params->availableLanguages  as $lang_id => $lang_name) {
 						// 	$_GET['language']=$lang_id;
@@ -1453,7 +1451,7 @@ if($chapter_list)
 			
 		
 <!-- chat  -->
-	<a class="chat_button"><i class="icon-chat-inv"></i><span class="text-visible">&nbsp;Yazışma</span></a>
+	<!--<a class="chat_button"><i class="icon-chat-inv"></i><span class="text-visible">&nbsp;Yazışma</span></a>-->
 	
 		<div class="chat_window">
 		

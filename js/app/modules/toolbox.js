@@ -853,7 +853,7 @@ window.lindneo.toolbox = (function(window, $, undefined){
     });
 
     $('.generic-cut').click(function(){
-      console.log('oldi mi');
+      console.log('cutting');
       that.copySelectedItemsToClipboard(true);
     });
  
