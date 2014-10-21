@@ -743,7 +743,7 @@ class SiteController extends Controller
 		}
 
 		// collect user input data
-		if(isset($_POST['LoginForm']) || true)
+		if(isset($_POST['LoginForm']) || Yii::app()->user->isGuest)
 		{
 			$login_history=new LoginHistory;
 			$login_history->user_email=$_POST['LoginForm']['email'];
@@ -768,6 +768,7 @@ class SiteController extends Controller
 				$login_history->message=$msg;
 				Yii::log($msg,'profile');
 				$login_history->save();
+
 				$this->redirect(Yii::app()->user->returnUrl);
 			}
 			else
