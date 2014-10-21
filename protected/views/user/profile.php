@@ -56,7 +56,7 @@
         <div class="myprofile_info_edit"><i class="fa fa-edit"></i> <form id="myprofile_info_edit"><input id="email" placeholder="<?php echo $user->email; ?>" /></form></div>
         </div>
         
-        
+        <!--
         <div class="myprofile_information_components">
         
         <div class="panel-group" id="accordion">
@@ -75,6 +75,7 @@
         </div>
         
         </div>
+        -->
         </div>
         <!-- end of myprofile_information_part -->
 
