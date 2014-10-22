@@ -223,6 +223,7 @@ return array(
      	'lindenstamp'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'../../'.'bin/lindenstamp/lindenstamp ',
      	'timestamps'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'../../'.'timestamps/',
      	'storage'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'../../'.'uploads/files/',
+     	'serialized'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'../../'.'serialized/',
      	'availableLanguages' => array(
      		'tr_TR' => 'Türkçe',
      		'en_US' => 'English'

@@ -811,6 +811,7 @@ class OrganisationsController extends Controller
 	 * organisation's workspaces
 	 * @param  varchar $organizationId
 	 */
+
 	public function actionWorkspaces($organizationId=null)
 	{
 		if(Yii::app()->user->isGuest)
@@ -832,12 +833,15 @@ class OrganisationsController extends Controller
 		     */
 		    $isOrganizationUser = ($organizationUser) ? $organizationUser : null ;
 		    //if ($isOrganizationUser) {
+		   
+		   	$workspaces=$this->getTemplateWorkspaces();
+		   	$template_workspace=$workspaces[0]["value"];
 
 		    	$workspaces = Yii::app()->db->createCommand()
 				    ->select("*")
 				    ->from("organisation_workspaces x")
 				    ->join("workspaces w",'w.workspace_id=x.workspace_id')
-				    ->where("organisation_id=:organisation_id", array(':organisation_id' => $organizationId ) )
+				    ->where("organisation_id=:organisation_id AND x.workspace_id!=:workspace_id", array(':organisation_id' => $organizationId,':workspace_id'=>$template_workspace ) )
 				    ->queryAll();
 
 				$this->render('workspaces',array(
@@ -848,6 +852,11 @@ class OrganisationsController extends Controller
 		    }
 		//}
 	}
+
+
+
+
+
 
 	/**
 	 * [workspaceUsers]

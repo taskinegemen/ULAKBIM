@@ -239,10 +239,12 @@ if($chapter_list)
                <li class="author_headermenu_vertical_line"></li>
 			   <li class='has-sub'><a href='#'><span>Dosya</span></a>
 					<ul>
-			         <li><a href="<?php echo $this->createUrl('site/index');  ?>"><span><i class="icon-book"></i>Kitaplarım</span></a></li>
+
+			         
 			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportPdfBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("PDF İndir"); ?></i></a></li>
 			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("EPub indir"); ?></i></a></li>
-               
+			         <li><a href="<?php echo $this->createUrl("Lepub/Export", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("LEPub indir"); ?></i></a></li>
+        
 			         <!--<li>
 			         	<?php
 			         		if ($budget==0) {

@@ -538,6 +538,7 @@ class UserController extends Controller
 		$user=User::model()->findByPk(Yii::app()->user->id);
 		$userProfileMeta=UserMeta::model()->find('user_id=:user_id AND meta_key=:meta_key',array('user_id'=>Yii::app()->user->id,'meta_key'=>'profilePicture'));
 		$this->render('profile',array('user'=>$user,'userProfileMeta'=>$userProfileMeta));
+		
 	}
 	/**
 	 * Creates a new model.
