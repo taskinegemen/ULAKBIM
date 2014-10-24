@@ -53,6 +53,7 @@ class LepubController extends Controller
    		file_put_contents($serialized_book_path.'/components.ser', $serialized_components); 
 
    		exec("cd ".$serialized_book_path.";zip -o -r ../".$bookId.".lepub .");
+      exec("rm -rf ".$serialized_book_path);
    		$this->exportLepub($serialized_book_path.".lepub");
 
 
@@ -137,7 +138,7 @@ class LepubController extends Controller
         				   						$data->source->attr->src=Yii::app()->request->getBaseUrl(true)."/uploads/files/".$new_book_id."/".$new_video_id.".mp4";
         				   						$new_component->data=base64_encode(json_encode($data));
 
-
+ 
 
 
 
@@ -146,6 +147,8 @@ class LepubController extends Controller
         				   					if($new_component->save())
         				   					{
         				   						
+                               exec("rm -rf ".$serialized_book_path);
+                               unlink($serialized_book_path.".lepub");
         				   					}
         				   					else
         				   					{
@@ -230,6 +233,7 @@ class LepubController extends Controller
       ob_clean();
       flush();
       readfile($filename);
+      unlink($filename);
       die;
 	}
 

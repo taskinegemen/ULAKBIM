@@ -161,7 +161,7 @@
   </div>
 </div>
 <!--Progressin window END-->
-<br><br>
+ 
 <section>
 	<div id="content" class="col-lg-12">
     <div class="page-header">
@@ -218,7 +218,7 @@
 									      <div class="panel-footer clearfix">
 									      	<div class="span7 text-center">
 									      		<!--<a href="" class="btn btn-success submitBtn" id="lepub_submit" style="display: inline-block;">Oluştur <i class="fa fa-arrow-circle-right"></i></a>-->
-									      		<button type="submit" disabled="true" class="btn btn-success" id="lepub_submit">Oluştur <i class="fa fa-arrow-circle-right"></i></button>
+									      		<button type="submit" disabled="true" class="btn btn-success" id="lepub_submit"><i class="fa fa-upload"></i>Yükle</button>
 									      	</div>
 									      </div>
 								    </div>
