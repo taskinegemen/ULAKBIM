@@ -36,7 +36,7 @@ class BookController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','selectTemplate','delete','view','author','newBook','selectData','uploadFile','duplicateBook','updateCover','getPagesAndChapters',"copyBook","createTemplate","updateBookTitle","getBookPages",'bookCreate','getTemplates','createNewBook','fastStyle','getFastStyle','updateThumbnail','manageDemo'),
+				'actions'=>array('create','update','selectTemplate','delete','view','author','newBook','selectData','uploadFile','duplicateBook','updateCover','getPagesAndChapters',"copyBook","createTemplate","updateBookTitle","getBookPages",'bookCreate','getTemplates','createNewBook','fastStyle','getFastStyle','updateThumbnail','manageDemo','bookImport'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -94,6 +94,56 @@ class BookController extends Controller
 		}
 	}
 
+	private function base64_to_file($base64_string, $output_file) {
+    $ifp = fopen($output_file, "wb"); 
+
+    $data = explode(',', $base64_string);
+
+    fwrite($ifp, base64_decode($data[1])); 
+    fclose($ifp); 
+	}
+	public function actionBookImport()
+	{
+
+		$userid=Yii::app()->user->id;
+		$templates=Yii::app()->db->createCommand()
+		->select ("*")
+		->from("organisations_meta")
+		->where("meta=:meta", array(':meta' => 'template'))
+		->queryAll();
+		$template=$templates[0];
+		$workspacesOfUser= Yii::app()->db->createCommand()
+	    ->select("*")
+	    ->from("workspaces_users x")
+	    ->join("workspaces w",'w.workspace_id=x.workspace_id')
+	    ->join("user u","x.userid=u.id")
+	    ->where("userid=:id AND x.workspace_id!=:workspace_id", array(':id' => $userid,':workspace_id'=>$template["value"] ) )->queryAll();
+
+		$LepubForm=new LepubForm();
+		if(isset($_POST['LepubForm']))
+		{
+			$LepubForm->attributes=$_POST['LepubForm'];
+			if($LepubForm->validate()){
+				$lepub_file=$LepubForm->lepub_file;
+				$lepub_file_name=functions::get_random_string();
+				$this->base64_to_file($lepub_file,Yii::app()->params['serialized'].$lepub_file_name.".lepub");/*TODO:specify epub or lepub*/
+
+				$this->redirect(array('Lepub/import', 'bookId'=>$lepub_file_name));
+
+			}
+			else
+			{
+				$this->render('book_import',array("workspaces"=>$workspacesOfUser,"LepubForm"=>$LepubForm));
+				
+			}
+		}
+		else
+		{
+
+			$this->render('book_import',array("workspaces"=>$workspacesOfUser,"LepubForm"=>$LepubForm));
+		}
+
+	}
 	public function actionBookCreate()
 	{
 		$file_form=new FileForm();
