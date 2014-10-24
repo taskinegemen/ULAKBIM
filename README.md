@@ -104,5 +104,12 @@ Locale(for turkish)
 -----------------------------------------------------------------  
 less /usr/share/i18n/SUPPORTED (desteklenen locallere bak)  
 locale-gen tr_TR.UTF-8  
+
+Lepub mime type for client computer
+-----------------------------------------------------------------  
+nano /usr/share/mime/packages/lepub.xml
+update-mime-database /usr/share/mime
+
+
   
   
