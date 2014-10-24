@@ -114,6 +114,7 @@ class LepubController extends Controller
         		   					{
         		   						foreach ($serialized_components as $component) 
         		   						{
+                            if($component->page_id==$page_id){
         		   							$component_id=$component->id;
         				   					$new_component_id=$this->createUniqueId(Component,'id');
         				   					$new_component=new Component();
@@ -150,6 +151,9 @@ class LepubController extends Controller
         				   					{
         				   						print_r($new_component->getErrors());
         				   					}
+
+                          }
+
         		   						}
         		   					}
         		   					else
