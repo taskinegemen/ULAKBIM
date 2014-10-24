@@ -11398,7 +11398,15 @@ Pagination Styles
 /* ===============================================================
 Basic Swiper Styles 
 ================================================================*/
-
+.add-lepub-drag-area{
+margin: 0 auto 20px auto;
+height: 200px;
+line-height: 5em;
+background: url(drag-drop-default-image.png) center center no-repeat;
+background-size: contain;
+background-color: #FFFFFF;
+border: 1px dashed #B4B4B4;
+}
 
 
 

@@ -311,10 +311,13 @@ $all_books= $this->getWorkspaceBooks($workspace->workspace_id);
                                                     </ul>
                                             </li>
                                         </ul>
-                                        
+                                        <a class="pull-right btn btn-info" id='importNewBookBtn' href="/book/bookImport" <?php //echo ($confirmation !=0 AND $confirmation !=3 AND $verifiedEmail!=0)? "disabled":""; ?>>
+											<i class="fa fa-plus-circle"></i>
+											<span><?php _e('(L)EPub Yükle') ?></span>
+										</a>
 										<a class="btn pull-right brand_color_for_buttons" id='addNewBookBtn' href="/book/bookCreate" <?php //echo ($confirmation !=0 AND $confirmation !=3 AND $verifiedEmail!=0)? "disabled":""; ?>>
 											<i class="fa fa-plus-circle"></i>
-											<span><?php _e('Kitap Ekle') ?></span>
+											<span><?php _e('Yeni Kitap Oluştur') ?></span>
 										</a>
 								</div>
 							</div>

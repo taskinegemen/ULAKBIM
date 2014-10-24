@@ -175,7 +175,7 @@ class LepubController extends Controller
    		{
    			print_r($new_book->getErrors());
    		}
-  		
+	  	$this->redirect(array('Book/author', 'bookId'=>$new_book_id));	
 
 
 	}
