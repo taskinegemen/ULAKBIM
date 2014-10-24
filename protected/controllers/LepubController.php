@@ -138,7 +138,7 @@ class LepubController extends Controller
         				   						$data->source->attr->src=Yii::app()->request->getBaseUrl(true)."/uploads/files/".$new_book_id."/".$new_video_id.".mp4";
         				   						$new_component->data=base64_encode(json_encode($data));
 
-
+ 
 
 
 
