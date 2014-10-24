@@ -24,6 +24,7 @@
 </section>
 
 -->
+
 <script type="text/javascript">
 	function formatSizeUnits(bytes){
         if      (bytes>=1000000000) {bytes=(bytes/1000000000).toFixed(2)+' GB';}
@@ -35,6 +36,10 @@
         return bytes;
 	}
 	$(document).ready(function(){
+
+		$('#lepub_submit').click(function(){
+			$('#ProgressingModal').modal({backdrop: 'static',keyboard: false});
+		});
 		$('#lepub_drop').on(
     		'dragover',
 	    function(e) 
@@ -81,12 +86,31 @@
 			    });
 
       			// Read in the image file as a data URL.
-      			reader.readAsDataURL(lepubfile);
+      			if(lepubfile.type =='application/epub+zip' || lepubfile.type =='application/lepub')
+      			{
+      				
+      				if(lepubfile.type=='application/epub+zip')
+      				{
+      					$("#lepub_type").val('epub');
+      				}
+      				else if(lepubfile.type=='application/lepub')
+      				{
+      					$("#lepub_type").val('lepub');
+      				}
+      				reader.readAsDataURL(lepubfile);
+      				$("#lepub_submit").attr("disabled",false);
+                    $('#lepub_info').css({'display':'block'});
+	                $('#lepub_name').html(lepubfile.name);
+	                $('#lepub_type').html(lepubfile.type);
+	                $('#lepub_size').html(formatSizeUnits(lepubfile.size));
+      			}
+      			else
+      			{
+      				$("#lepub_submit").attr("disabled",true);
+      				$('#lepub_info').css({'display':'none'});
+      				$('#ErrorModal').modal('show');
+      			}
 
-                $('#lepub_info').css({'display':'block'});
-                $('#lepub_name').html(lepubfile.name);
-                $('#lepub_type').html(lepubfile.type);
-                $('#lepub_size').html(formatSizeUnits(lepubfile.size));
 
             }   
         }
@@ -98,11 +122,48 @@
 
 	});
 </script>
+
+<!--Lepub error window BEGIN-->
+<div class="modal fade" id="ErrorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Hata</h4>
+      </div>
+      <div class="modal-body">
+        Lütfen <b>.epub</b> yada <b>.lepub</b> uzantısına sahip dosyalar yükleyiniz!
+        <br><br>
+        Eğer uzantısı <b>.epub</b> yada <b>.lepub</b> uzantılı bir dosya yükleyip yine bu hata ile karşılaşıyorsanız, lütfen bilgisayarınızda bu uzantılara ait mime-type türlerinin tanıtılıp tanıtılmadığına emin olunuz!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--Lepub error window END-->
+
+<!--Progressing window BEGIN-->
+<div class="modal fade" id="ProgressingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+      	<p align="center">
+			<img src="<?php echo Yii::app()->request->baseUrl; ?>/css/loading.gif">
+		</p>
+		<p align="center">
+			(L)Epub işleniyor...Lütfen bekleyiniz!
+		</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Progressin window END-->
+<br><br>
 <section>
 	<div id="content" class="col-lg-12">
-
-
-
     <div class="page-header">
 			<h3 class="content-title pull-left">(L)Epub Yükle</h3>
 		</div>
@@ -113,7 +174,6 @@
 									      <div class="panel-heading" style="background-color:#70afc4">
 									        <!--<h3 class="panel-title">Panel title</h3>-->
 									        	<h4 style="color:white"><i class="fa fa-book"></i><?php _e('Uygun çalışma alanı belirleyip (L)Epub dosyanızı yükleyiniz!'); ?></h4>
-
 									      </div>
 
 									      <div class="panel-body">
@@ -141,6 +201,7 @@
 												<label for="radio" class="control-label col-md-5"><?php _e('(L)EPub Yükle'); ?><span class="required">*</span><br><span class="label label-danger"><?php echo $LepubForm->getErrors()['lepub_file'][0];?></span></label>
 												<div class="col-md-7" id="lepub_drop" style="border-style:dashed"><!--add-lepub-drag-area-->
 													<input type="hidden" name="LepubForm[lepub_file]" id="lepub_file">
+													<input type="hidden" name="LepubForm[lepub_type]" id="lepub_type">
 													<p style="text-align:center;padding:30px;">(L)Epub dosyasını bu alana sürükleyip bırakınız...</p>
 													<div id="lepub_info" style="display:none">
 														<p><b>Dosya Adı:</b><span id="lepub_name"></span></p>
@@ -157,7 +218,7 @@
 									      <div class="panel-footer clearfix">
 									      	<div class="span7 text-center">
 									      		<!--<a href="" class="btn btn-success submitBtn" id="lepub_submit" style="display: inline-block;">Oluştur <i class="fa fa-arrow-circle-right"></i></a>-->
-									      		<button type="submit" class="btn btn-success" id="lepub_submit">Oluştur <i class="fa fa-arrow-circle-right"></i></button>
+									      		<button type="submit" disabled="true" class="btn btn-success" id="lepub_submit">Oluştur <i class="fa fa-arrow-circle-right"></i></button>
 									      	</div>
 									      </div>
 								    </div>
@@ -165,3 +226,4 @@
 	</div>
 	<?php echo CHtml::endForm(); ?>
 </section>
+

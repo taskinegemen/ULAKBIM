@@ -125,10 +125,12 @@ class BookController extends Controller
 			$LepubForm->attributes=$_POST['LepubForm'];
 			if($LepubForm->validate()){
 				$lepub_file=$LepubForm->lepub_file;
-				$lepub_file_name=functions::get_random_string();
-				$this->base64_to_file($lepub_file,Yii::app()->params['serialized'].$lepub_file_name.".lepub");/*TODO:specify epub or lepub*/
+				$workspace_id=$LepubForm->workspace;
+				$lepub_type=$LepubForm->lepub_type;
 
-				$this->redirect(array('Lepub/import', 'bookId'=>$lepub_file_name));
+				$lepub_file_name=functions::get_random_string();
+				$this->base64_to_file($lepub_file,Yii::app()->params['serialized'].$lepub_file_name.".".$lepub_type);/*TODO:specify epub or lepub*/
+				$this->redirect(array('Lepub/import', 'bookId'=>$lepub_file_name,'workspace_id'=>$workspace_id,'lepub_type'=>$lepub_type));
 
 			}
 			else
