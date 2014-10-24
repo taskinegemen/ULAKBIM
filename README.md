@@ -107,6 +107,15 @@ locale-gen tr_TR.UTF-8
 
 Lepub mime type for client computer
 -----------------------------------------------------------------  
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/lepub">
+    <sub-class-of type="application/zip"/>
+    <comment>Linden EPUB format prepared for TUBITAK/ULAKBIM</comment>
+    <glob pattern="*.lepub"/>
+  </mime-type>
+</mime-info>
+
 
 nano /usr/share/mime/packages/lepub.xml
 
