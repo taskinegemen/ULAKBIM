@@ -113,6 +113,7 @@ class LepubController extends Controller
         		   					$new_page->chapter_id=$new_chapter_id;
         		   					if($new_page->save())
         		   					{
+                          /*component list begins*/
         		   						foreach ($serialized_components as $component) 
         		   						{
                             if($component->page_id==$page_id){
@@ -147,8 +148,7 @@ class LepubController extends Controller
         				   					if($new_component->save())
         				   					{
         				   						
-                               exec("rm -rf ".$serialized_book_path);
-                               unlink($serialized_book_path.".lepub");
+                              
         				   					}
         				   					else
         				   					{
@@ -158,6 +158,8 @@ class LepubController extends Controller
                           }
 
         		   						}
+                          
+                          /*component list ends*/
         		   					}
         		   					else
         		   					{
@@ -187,6 +189,8 @@ class LepubController extends Controller
            		{
            			print_r($new_book->getErrors());
            		}
+              exec("rm -rf ".$serialized_book_path);
+              unlink($serialized_book_path.".lepub");
         	  	$this->redirect(array('Book/author', 'bookId'=>$new_book_id));	
       }
       else if($lepub_type=="epub")
