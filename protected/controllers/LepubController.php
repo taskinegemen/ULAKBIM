@@ -65,7 +65,7 @@ class LepubController extends Controller
 
   		$serialized_book_path=Yii::app()->params['serialized'].$bookId;
   		exec("cd ".Yii::app()->params['serialized'].";unzip -o ".$serialized_book_path.".".$lepub_type." -d ".$bookId);
-
+      exec("chmod -R 755 ".$serialized_book_path);
   		$users=User::model()->findAll();
   		$current_user=$users[0];
   		
@@ -195,11 +195,435 @@ class LepubController extends Controller
       }
       else if($lepub_type=="epub")
       {
-        echo "TODO:epub import not finished yet!";
+        echo "TODO:epub import not finished yet!...";
+        print_r($bookId);
+        print_r($workspace_id);
+        print_r($lepub_type);
+
+        $xml=simplexml_load_file($serialized_book_path."/META-INF/container.xml");
+        print_r($serialized_book_path."/META-INF/container.xml");
+        var_dump($xml);
+        foreach ($xml->rootfiles->rootfile->attributes() as $key => $value) {
+          if($key=="full-path")
+          {
+            $full_path=$value;
+          }
+        }
+
+        $full_path_array=split("/", $full_path);
+        foreach ($full_path_array as $item) {
+          $matches=array();
+          preg_match("/.+\.opf/", $item, $matches, PREG_OFFSET_CAPTURE);
+          if(empty($matches))
+          {
+            $serialized_book_path.="/".$item;
+          }
+          else
+          {
+            $opf_name=$item;
+          }
+        }
+
+      /*begin find chapters*/
+      $toc_points=array();
+      $toc_paths=glob($serialized_book_path."/toc.ncx");
+      $chapters=array();
+      if(sizeof($toc_paths)==1)
+      {
+        $toc_path=$toc_paths[0];
+        $toc_xml=simplexml_load_file($toc_path);
+        foreach ($toc_xml->navMap as $navPoint) {
+          foreach ($navPoint as $point) {
+            $toc_points[]=$this->xml_attribute($point,"id");
+          }
+        }
+      }
+      /*end find chapter*/
+
+        $results=glob($serialized_book_path."/".$opf_name);//"/package.opf"
+        $idrefs=array();
+        if(sizeof($results)==1)
+        {
+          $opf=$results[0];
+          $xml=simplexml_load_file($opf);
+
+
+          foreach ($xml->spine->itemref as $item) {
+            $idref=$this->xml_attribute($item,"idref");
+            $idrefs[$idref]=$idref;
+            /*chapter identification begin*/
+            $idrefs_chapters=array();
+            if(in_array($idref, $toc_points))
+            {
+              $idrefs_chapters=$idref;
+            }
+            /*chapter identification end*/
+          }
+
+
+        
+          foreach ($xml->manifest->item as $item) {
+              $id=$this->xml_attribute($item,"id");
+
+              if(in_array($id,$idrefs))
+              {
+                $href=$this->xml_attribute($item,"href");
+                $idrefs[$id]=$href;
+              }
+          }
+          print_r($idrefs);
+
+
+          /*Book metadata begin*/
+          $metas=$xml->metadata->children("http://purl.org/dc/elements/1.1/");
+          $meta=array(
+              "title"=>$metas->title->__toString(),
+              "author"=>$metas->creator->__toString(),
+              "created"=>date("Y-m-d H:i:s")
+            );
+          print_r($meta);
+          /*Book metadata end*/
+
+
+          $book=new Book();
+          $book->title=$meta["title"];
+          $book->author=$meta["author"];
+          $book->created=$meta["created"];
+
+          $book->workspace_id=$workspace_id;
+          $book->book_id=$bookId;
+          $book->data='{"book_type":"epub","size":{"width":"1280","height":"960"},"template_id":""}';
+          print_r("boooookkk saving.....");
+          if($book->save()){
+              $new_book_user=new BookUsers();
+              $new_book_user->user_id=$current_user->id;
+              $new_book_user->book_id=$bookId;
+              $new_book_user->type="owner";
+              $new_book_user->created=date('Y-m-d G:i:s');
+              if($new_book_user->save())
+              {
+                $new_chapter_id=$this->createUniqueId(Chapter,'chapter_id');
+                $new_chapter=new Chapter();
+                $new_chapter->chapter_id=$new_chapter_id;
+                $new_chapter->book_id=$new_book_user->book_id;
+                $new_chapter->title="Bölüm 1";
+                if($new_chapter->save())
+                {
+                  $order=0;
+                  foreach ($idrefs as $single_page) 
+                  {
+                      /*iterate over pages begin*/
+                      $order++;
+                      $new_page_id=$this->createUniqueId(Page,'page_id');
+                      $new_page=new Page();
+                      $new_page->page_id=$new_page_id;
+                      $new_page->order=$order;
+                      $new_page->chapter_id=$new_chapter_id;
+                      if($new_page->save())
+                      {
+                        $full_path=$serialized_book_path."/".$single_page;
+
+                        $html_data=file_get_contents($full_path);
+                        //$html_data=$this->changeReferencesWithContent($serialized_book_path,$html_data);
+                        $html_data=$this->changeSourcePath($html_data,$bookId,$opf);
+                        file_put_contents($full_path, $html_data);
+                        $data=$this->encodeURI($html_data);
+                        $size=$this->createBookSize($html_data);
+                        if($order==1)
+                        {
+                          $book_size=$size;
+                        }
+                        print_r("SIZE=>");print_r($size);
+                        $html_component=$this->createHtmlComponent($data,$size["width"],$size["height"]);
+                        //$html_component=$this->createHtmlComponent($full_path,$serialized_book_path);
+                        
+                        $new_component_id=$this->createUniqueId(Component,'id');
+                        $new_component=new Component();
+                        $new_component->id=$new_component_id;
+                        $new_component->page_id=$new_page_id;
+                        $new_component->type="html";
+                        $new_component->data=$html_component;
+                        if($new_component->save())
+                        {
+                          copy($full_path,Yii::app()->params['storage'].$new_component->id.".html");
+                        }
+                        else
+                        {
+                          print_r($new_component->getErrors());
+                        }
+
+
+
+                      }
+                      else
+                      {
+                        print_r($new_page->getErrors());
+                      }
+                      /*iterate over pages end*/
+                  }
+                  //$size=$this->createBookSize(file_get_contents($full_path));
+                  $size=$book_size;
+                  $book->data='{"book_type":"epub","size":{"width":"'.$size["width"].'","height":"'.$size["height"].'"},"template_id":""}';
+                  $book->save();
+
+                }
+              }
+              else
+              {
+                print_r($book->getErrors());
+              }
+          }
+          else
+          {
+              print_r($book->getErrors()); 
+          }
+
+
+
+
+
+
+
+
+        }
+        else
+        {
+          print_r("Error:more than one .opf files found!<br>");
+          print_r($results);
+        }
+
       }
 
 
 	}
+  private function encodeURI($uri)
+  {
+      return preg_replace_callback("{[^0-9a-z_.!~*'();,/?:@&=+$#]}i", function ($m) {
+              return sprintf('%%%02X', ord($m[0]));
+          }, $uri);
+  }
+  private function createBookSize($html_data){
+
+    $matches=array();
+    $re = "/content=\\\"(.*)=(.*)[, ](.*)=(.*)\\\"/"; 
+    preg_match_all($re, $html_data, $matches);
+    if(!empty($matches))
+    {
+
+      print_r($matches);
+      if($matches[1][0]=="width")
+      {
+        return array("width"=>trim($matches[2][0],",. "),"height"=>trim($matches[4][0],",. "));
+      }
+      else if($matches[1][0]=="height")
+      {
+        return array("width"=>trim($matches[4][0],",. "),"height"=>trim($matches[2][0],",. "));       
+      }
+    }
+
+      return array("width"=>1280,"height"=>960);
+
+  }
+  private function changeSourcePath($html_data,$bookId,$opf_path)
+  {
+    print_r("HTML PATH-><br>".$opf);
+
+
+
+    $book_path=Yii::app()->getBaseUrl(true)."/serialized/".$bookId."/";
+    $opf = "/serialized\\/".$bookId."\\/(.+)\\/.+\\.opf/"; 
+    $src = "/src=[\"']([\\w\\d\\/\\?._-]+)[\"']/"; 
+    $href = "/href=[\"']([\\w\\d\\/\\?._-]+)[\"']/"; 
+    $poster = "/poster=[\"']([\\w\\d\\/\\?._-]+)[\"']/"; 
+
+    /*for opf*/
+    $matches=array();
+    preg_match($opf, $opf_path,$matches);
+    if(sizeof($matches))
+    {
+      $book_path.=$matches[1]."/";
+    }
+
+    /*for srcs*/
+    $matches=array();
+    preg_match_all($src, $html_data, $matches);
+    if(sizeof($matches))
+    {
+      foreach ($matches[1] as $match) 
+      {
+        $html_data=str_replace($match, $book_path.$this->replacePrefix($match), $html_data);
+      }
+    }
+
+    /*for hrefs*/
+    $matches=array();
+    preg_match_all($href, $html_data, $matches);
+    if(sizeof($matches))
+    {
+      foreach ($matches[1] as $match) 
+      {
+        $html_data=str_replace($match, $book_path.$this->replacePrefix($match), $html_data);
+      }
+    }
+
+    /*for posters*/
+    $matches=array();
+    preg_match_all($poster, $html_data, $matches);
+    if(sizeof($matches))
+    {
+      foreach ($matches[1] as $match) 
+      {
+        $html_data=str_replace($match, $book_path.$this->replacePrefix($match), $html_data);
+      }
+    }
+
+    return $html_data;
+
+
+
+
+
+  }
+  private function replacePrefix($match)
+  {
+    $data=str_replace("./", "", $match);
+    $data=str_replace("../", "", $match);
+    return $data;
+  }
+  private function changeReferencesWithContent($root_path,$html_data)
+  {
+      /*css change begins*/
+      //<link href="css/epub.css" type="text/css" rel="stylesheet" />
+      $matches=array();
+      $re = "/(<link.*\\/>)/"; 
+      preg_match_all($re, $html_data, $matches);
+      //var_dump($matches);
+      foreach ($matches[0] as $match) 
+      {
+        print_r($match[0]);
+        $doc=DOMDocument::loadXML($match);
+        $nodes=$doc->getElementsByTagName('link');
+        for($i=0;$i<$nodes->length;$i++)
+        {
+            $node=$nodes->item($i);
+            $is_css=false;
+            $css_src="";
+            foreach($node->attributes as $attr)
+              {
+                //print_r($attr->name."=>".$attr->value);
+                if($attr->name=="href")
+                {
+                  $css_src=$attr->value;
+                }
+                if($attr->name=="rel" && $attr->value=="stylesheet")
+                {
+                  $is_css=true;
+                }
+              }
+            if($is_css && $css_src!="")
+            {
+              //print_r("<br>".$css_src."<br>");
+              $css_source="<style>".file_get_contents($root_path."/".$css_src)."</style>";
+              $html_data=str_replace($match, $css_source, $html_data);
+            }  
+        }
+      }
+      /*css change ends*/
+
+      /*img change begins*/
+      $matches=array();
+      $re = "/(<img[^+]*>.*<\\/img>)|(<img[^+]*\\/>)|(<img[^+]*>)/"; 
+      preg_match($re, $html_data, $matches);
+      print_r("IMAGE=><br>");
+      var_dump($matches);
+      foreach ($matches as $match) 
+      {
+        if($match!="")
+        {
+            print_r("MATCH=><br>");
+            print_r($match);
+            $doc=DOMDocument::loadXML($match);
+            if($doc)
+              {
+                  $nodes=$doc->getElementsByTagName('img');
+                  for($i=0;$i<$nodes->length;$i++)
+                  {
+                      $node=$nodes->item($i);
+                      $is_img=false;
+                      $img_src="";
+                      foreach($node->attributes as $attr)
+                        {
+                          //print_r($attr->name."=>".$attr->value);
+                          if($attr->name=="src")
+                          {
+                            $img_src=$attr->value;
+                          }
+                        }
+                      if($img_src!="")
+                      {
+                        //print_r("<br>".$img_src."<br>");
+                        $img_source=file_get_contents($root_path."/".$img_src);
+                        $type = pathinfo($img_src, PATHINFO_EXTENSION);
+                        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($img_source);
+
+                        $temp_match=preg_replace('/src=".*"/', 'src="'.$base64.'"', $match);
+                        //print_r($temp_match);
+                        $html_data=str_replace($match, $temp_match, $html_data);
+                      }  
+                  }
+              }
+        }
+      }      
+      /*img change ends*/
+
+      /*audio change begins*/
+      /*audio change ends*/
+
+      /*video change begins*/
+      /*video change ends*/
+
+
+
+
+      return $html_data;
+
+  }
+
+  private function createHtmlComponent($data,$width=1280,$height=960)
+  {
+
+    /*
+    $html_data=file_get_contents($full_path);
+    $html_data=$this->changeReferencesWithContent($root_path,$html_data);
+    file_put_contents($full_path, $html_data);
+    $data=$this->encodeURI($html_data);
+    $size=$this->createBookSize($html_data);*/
+
+
+    $html=array(
+                  "html_inner"=>$data,
+                  "overflow"=>"visible",
+                  "lock"=>"",
+                  "self"=>array("css"=>array(
+                                            "position"=>"absolute",
+                                            "top"=>"0px",
+                                            "left"=>"0px",
+                                            "overflow"=>"visible",
+                                            "opacity"=>"1",
+                                            "width"=>$width."px",
+                                            "height"=>$height."px",
+                                            "z-index"=>900
+                                            )
+                                ),
+                  "comments"=>""
+                );
+    return base64_encode(json_encode($html));
+  }
+  private function xml_attribute($object, $attribute)
+  {
+    if(isset($object[$attribute]))
+        return (string) $object[$attribute];
+  }
 	private function createUniqueId($Model,$id_field)
 	{
 		do
