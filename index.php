@@ -6,6 +6,7 @@ error_reporting(E_ERROR | E_PARSE );
 ini_set('post_max_size','2000M');
 ini_set('upload_max_filesize','2000M');
 ini_set('memory_limit','-1');
+set_time_limit ( 1000000 );//maximum execution time
 
 $host_config='/yii_framework/framework/yii.php';
 
