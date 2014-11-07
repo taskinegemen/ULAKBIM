@@ -1564,6 +1564,96 @@ class epub3 {
 		return true;
 
 	}
+
+	private function addFilesFromImported()
+	{
+		/*
+		print_r("EPUB export variables BEGIN");
+		print_r($this->tempdir);print_r("<br>");
+		print_r($this->tempdirParent);print_r("<br>");
+		print_r($this->nicename);print_r("<br>");
+		print_r($this->book);print_r("<br>");
+		print_r("EPUB export variables END");
+		*/
+		$serialized_book_path=Yii::app()->params['serialized'].$this->book->book_id."/";
+		$data=json_decode($this->book->data);
+		if(isset($data->imported_epub))
+		{	
+			print_r($serialized_book_path);
+			if(file_exists($serialized_book_path) && is_dir($serialized_book_path))
+			{	
+				$this->copyDirectory($serialized_book_path,$this->tempdir);
+				$this->scanAndChangeLinks($this->tempdir,$data->imported_epub);
+				//TODO:replace http://editor.egemen.com with space 
+			}
+		}
+		return true;
+	}
+	private function scanAndChangeLinks($source,$imported_epub)
+	{
+		$sourceHandle = opendir($source);
+		if (!$sourceHandle) 
+		{
+		   echo 'failed to open source ' . $source;
+		   return false;
+		}
+		while ($file = readdir($sourceHandle)) 
+		{
+
+			if ($file == '.' || $file == '..')
+		      continue;
+	  		if (is_dir($source . '/' . $file)) 
+	  		{
+	  			$this->scanAndChangeLinks($source . '/' . $file,$imported_epub);
+	  		}
+	  		else
+	  		{
+				if(preg_match("/.+\\.html/", $file) | preg_match("/.+\\.xhtml/", $file))
+		  		{
+			  		$html_file=file_get_contents($source.'/'.$file);
+			  		$html_file=str_replace($imported_epub, "", $html_file);
+			  		/*
+			  		print_r($file);
+			  		print_r("<br>");
+			  		print_r($imported_epub);
+			  		print_r("<br>");
+			  		*/
+			  		file_put_contents($source.'/'.$file, $html_file);
+		  		}
+	  		}
+		}
+		return true;
+		
+	}
+	private function copyDirectory($source, $dest) 
+	{
+
+		  $sourceHandle = opendir($source);
+		  if (!$sourceHandle) 
+		  {
+		     echo 'failed to copy directory: failed to open source ' . $source;
+		     return false;
+		  }
+		  while ($file = readdir($sourceHandle)) 
+		  {
+		    if ($file == '.' || $file == '..')
+		      continue;
+		    if ($file == 'META-INF')
+		      continue;
+		  	if(preg_match("/.+\\.opf/", $file) | preg_match("/.+\\.ncx/", $file))
+		  		continue;
+		    if (is_dir($source . '/' . $file)) {
+		      if (!file_exists($dest . '/' . $file)) {
+		        mkdir($dest . '/' . $file, 777);
+		      }
+		      $this->copyDirectory($source . '/' . $file, $dest . '/' . $file);
+		    } else {
+		      copy($source . '/' . $file, $dest . '/' . $file);
+		    }
+		  }
+		   
+		  return true;
+	}
 	public function __construct($book_model=null, $download=true, $encyrptFiles=false){ 
 		
 		$this->book=$book_model;
@@ -1661,6 +1751,13 @@ class epub3 {
 		if( in_array(false,$this->contentOPF() ) ) {
 			$this->errors[]=new error('Epub3-Construction','Problem with contentOPF');
 			return false;
+		}
+
+
+		//add file for imported epub
+		if(!$this->addFilesFromImported())
+		{
+			$this->errors[]=new error('Imported epub error','Problem with files');
 		}
 
 		//Create Zip.
