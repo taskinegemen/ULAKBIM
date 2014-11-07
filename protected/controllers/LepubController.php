@@ -65,7 +65,7 @@ class LepubController extends Controller
 
   		$serialized_book_path=Yii::app()->params['serialized'].$bookId;
   		exec("cd ".Yii::app()->params['serialized'].";unzip -o ".$serialized_book_path.".".$lepub_type." -d ".$bookId);
-      exec("chmod -R 755 ".$serialized_book_path);
+      exec("chmod -R 777 ".$serialized_book_path);
   		$users=User::model()->findAll();
   		$current_user=$users[0];
   		
@@ -195,14 +195,15 @@ class LepubController extends Controller
       }
       else if($lepub_type=="epub")
       {
+        /*
         echo "TODO:epub import not finished yet!...";
         print_r($bookId);
         print_r($workspace_id);
-        print_r($lepub_type);
+        print_r($lepub_type);*/
 
         $xml=simplexml_load_file($serialized_book_path."/META-INF/container.xml");
-        print_r($serialized_book_path."/META-INF/container.xml");
-        var_dump($xml);
+        //print_r($serialized_book_path."/META-INF/container.xml");
+        //var_dump($xml);
         foreach ($xml->rootfiles->rootfile->attributes() as $key => $value) {
           if($key=="full-path")
           {
@@ -259,7 +260,7 @@ class LepubController extends Controller
             }
             /*chapter identification end*/
           }
-
+ 
 
         
           foreach ($xml->manifest->item as $item) {
@@ -271,7 +272,7 @@ class LepubController extends Controller
                 $idrefs[$id]=$href;
               }
           }
-          print_r($idrefs);
+          //print_r($idrefs);
 
 
           /*Book metadata begin*/
@@ -281,7 +282,7 @@ class LepubController extends Controller
               "author"=>$metas->creator->__toString(),
               "created"=>date("Y-m-d H:i:s")
             );
-          print_r($meta);
+          //print_r($meta);
           /*Book metadata end*/
 
 
@@ -293,7 +294,7 @@ class LepubController extends Controller
           $book->workspace_id=$workspace_id;
           $book->book_id=$bookId;
           $book->data='{"book_type":"epub","size":{"width":"1280","height":"960"},"template_id":""}';
-          print_r("boooookkk saving.....");
+          //print_r("boooookkk saving.....");
           if($book->save()){
               $new_book_user=new BookUsers();
               $new_book_user->user_id=$current_user->id;
@@ -333,7 +334,7 @@ class LepubController extends Controller
                         {
                           $book_size=$size;
                         }
-                        print_r("SIZE=>");print_r($size);
+                        //print_r("SIZE=>");print_r($size);
                         $html_component=$this->createHtmlComponent($data,$size["width"],$size["height"]);
                         //$html_component=$this->createHtmlComponent($full_path,$serialized_book_path);
                         
@@ -349,6 +350,7 @@ class LepubController extends Controller
                         }
                         else
                         {
+                          print_r("Component errors");
                           print_r($new_component->getErrors());
                         }
 
@@ -357,14 +359,18 @@ class LepubController extends Controller
                       }
                       else
                       {
+                        print_r("PAGE errors");
                         print_r($new_page->getErrors());
                       }
                       /*iterate over pages end*/
                   }
                   //$size=$this->createBookSize(file_get_contents($full_path));
                   $size=$book_size;
-                  $book->data='{"book_type":"epub","size":{"width":"'.$size["width"].'","height":"'.$size["height"].'"},"template_id":""}';
+                  $book_link=Yii::app()->getBaseUrl(true)."/serialized/".$bookId."/";
+                  $book->data='{"book_type":"epub","size":{"width":"'.$size["width"].'","height":"'.$size["height"].'"},"template_id":"","imported_epub":"'.$book_link.'"}';
                   $book->save();
+
+ 
 
                 }
               }
@@ -378,19 +384,15 @@ class LepubController extends Controller
               print_r($book->getErrors()); 
           }
 
-
-
-
-
-
-
-
         }
         else
         {
           print_r("Error:more than one .opf files found!<br>");
           print_r($results);
         }
+        //echo "HI GUYS";
+          unlink($serialized_book_path.".epub");
+          $this->redirect(array('Book/author', 'bookId'=>$bookId)); 
 
       }
 
@@ -410,7 +412,7 @@ class LepubController extends Controller
     if(!empty($matches))
     {
 
-      print_r($matches);
+      //print_r($matches);
       if($matches[1][0]=="width")
       {
         return array("width"=>trim($matches[2][0],",. "),"height"=>trim($matches[4][0],",. "));
@@ -426,9 +428,7 @@ class LepubController extends Controller
   }
   private function changeSourcePath($html_data,$bookId,$opf_path)
   {
-    print_r("HTML PATH-><br>".$opf);
-
-
+    //print_r("HTML PATH-><br>".$opf);
 
     $book_path=Yii::app()->getBaseUrl(true)."/serialized/".$bookId."/";
     $opf = "/serialized\\/".$bookId."\\/(.+)\\/.+\\.opf/"; 
@@ -500,7 +500,7 @@ class LepubController extends Controller
       //var_dump($matches);
       foreach ($matches[0] as $match) 
       {
-        print_r($match[0]);
+        //print_r($match[0]);
         $doc=DOMDocument::loadXML($match);
         $nodes=$doc->getElementsByTagName('link');
         for($i=0;$i<$nodes->length;$i++)
@@ -534,8 +534,8 @@ class LepubController extends Controller
       $matches=array();
       $re = "/(<img[^+]*>.*<\\/img>)|(<img[^+]*\\/>)|(<img[^+]*>)/"; 
       preg_match($re, $html_data, $matches);
-      print_r("IMAGE=><br>");
-      var_dump($matches);
+      //print_r("IMAGE=><br>");
+      //var_dump($matches);
       foreach ($matches as $match) 
       {
         if($match!="")
