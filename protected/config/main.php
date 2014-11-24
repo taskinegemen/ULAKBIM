@@ -7,37 +7,7 @@
 // CWebApplication properties can be configured here.
 
 require_once(dirname(__FILE__).'/../includes/localization.php');
-
-$db_config_list=array(
-			"baracuda"=>array(
-                        			'connectionString' => 'mysql:host=pufferfish.private.services.okutus.com;port=3306;dbname=squid_pacific',
-                        			'emulatePrepare' => true,
-                        			'username' => 'barracuda',
-                        			'password' => 'hWqG49pCYnGSsaXU',
-                        			'charset' => 'utf8',
-                			),
-			"lindneo"=>array(
-                        			'connectionString' => 'mysql:host=lindneo.com;port=3306;dbname=squid_pacific',
-                        			'emulatePrepare' => true,
-                        			'username' => 'db_squid_pacific',
-                        			'password' => '7GqA3Pqcy38QnfPQ',
-                        			'charset' => 'utf8',
-                			),
-			"ulgen"=>array(
-                        			'connectionString' => 'mysql:host=datamaster.private.services.lindneo.com;port=3306;dbname=squid_pacific',
-                        			'emulatePrepare' => true,
-                        			'username' => 'db_squid_pacific',
-                        			'password' => '7GqA3Pqcy38QnfPQ',
-                        			'charset' => 'utf8',
-                			),
-			"other"=>array(
-                        			'connectionString' => 'mysql:host=localhost;port=3306;dbname=ulakbim_editor',
-                        			'emulatePrepare' => true,
-                        			'username' => 'root',
-                        			'password' => '12548442',
-                        			'charset' => 'utf8',
-                			),
-);      
+include 'db_configuration.php';
 
 $catalogURL=array(
 	"baracuda"=>"http://bigcat.okutus.com/site/import",
