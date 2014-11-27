@@ -275,7 +275,7 @@
 								<a href="/organisations/workspaces?organizationId=<?php echo $organisation["organisation_id"]; ?>">
 									<i class="fa fa-th-list fa-fw"></i> <span class="menu-text"> <!--fa fa-user fa-fw-->
 
-									<?php _e('Çalışma alanları'); ?>
+									<?php _e('Kategoriler'); ?>
 								</span>
 								</a>
 							</li>
