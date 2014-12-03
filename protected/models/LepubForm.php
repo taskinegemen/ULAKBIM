@@ -8,7 +8,8 @@ class LepubForm extends CFormModel
     {
         return array(
             array('workspace', 'checkworkspace'),
-            array('lepub_file', 'checklepub'),
+            //array('lepub_file', 'checklepub'),
+            array('lepub_file', 'file', 'allowEmpty'=>false, 'types'=>'epub,lepub', 'maxSize'=>400097152),//400MB
             array('lepub_type', 'checklepub_type'),
         );
     }

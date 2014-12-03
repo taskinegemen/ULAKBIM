@@ -55,7 +55,31 @@
 	        e.stopPropagation();
 	    }
 	);
+	$("#lepub_file").on('change',function(e){
+		var lepubfile = this.files[0];
+		if(lepubfile.type =='application/epub+zip' || lepubfile.type =='application/lepub')
+		{
+			
+			if(lepubfile.type=='application/epub+zip')
+			{
+				$("#lepub_type").val('epub');
+			}
+			else if(lepubfile.type=='application/lepub')
+			{
+				$("#lepub_type").val('lepub');
+			}
+			$("#lepub_submit").attr("disabled",false);
+		}
+		else
+		{
+			$("#lepub_submit").attr("disabled",true);
+			$('#lepub_info').css({'display':'none'});
+			$('#ErrorModal').modal('show');
+		}
 
+
+
+	});
 	$('#lepub_drop').on(
     'drop',
     function(e){
@@ -98,6 +122,7 @@
       					$("#lepub_type").val('lepub');
       				}
       				reader.readAsDataURL(lepubfile);
+      				console.log(lepubfile);
       				$("#lepub_submit").attr("disabled",false);
                     $('#lepub_info').css({'display':'block'});
 	                $('#lepub_name').html(lepubfile.name);
@@ -169,7 +194,7 @@
 		</div>
     
 							<div class="col-md-10 creating_book_box">
-							<?php echo CHtml::beginForm(); ?>
+							<?php echo CHtml::beginForm('/book/bookImport','post',array('enctype'=>'multipart/form-data')); ?>
 								    <div class="panel" style="border:1px solid #5ea5bd">
 									      <div class="panel-heading" style="background-color:#70afc4">
 									        <!--<h3 class="panel-title">Panel title</h3>-->
@@ -199,9 +224,20 @@
 													</div>
 
 												<label for="radio" class="control-label col-md-5"><?php _e('(L)EPub Yükle'); ?><span class="required">*</span><br><span class="label label-danger"><?php echo $LepubForm->getErrors()['lepub_file'][0];?></span></label>
-												<div class="col-md-7" id="lepub_drop" style="border-style:dashed"><!--add-lepub-drag-area-->
+												<div class="col-md-7" id="lepub_upload" style="margin-bottom:30px;"><!--add-lepub-upload-area-->
+													<input type="file" name="LepubForm[lepub_file]" id="lepub_file">
+													<input type="hidden" name="LepubForm[lepub_type]" id="lepub_type">
+												</div>
+												<!--
+												<label for="radio" class="control-label col-md-5"><?php _e('veya'); ?></label>
+												<div class="col-md-7"><br><br><br>
+												</div>
+
+												<label for="radio" class="control-label col-md-5"><?php _e('(L)EPub Yükle(sürekle & bırak)'); ?><span class="required">*</span><br><span class="label label-danger"><?php echo $LepubForm->getErrors()['lepub_file'][0];?></span></label>
+												<div class="col-md-7" id="lepub_drop" style="border-style:dashed">
 													<input type="hidden" name="LepubForm[lepub_file]" id="lepub_file">
 													<input type="hidden" name="LepubForm[lepub_type]" id="lepub_type">
+
 													<p style="text-align:center;padding:30px;">(L)Epub dosyasını bu alana sürükleyip bırakınız...</p>
 													<div id="lepub_info" style="display:none">
 														<p><b>Dosya Adı:</b><span id="lepub_name"></span></p>
@@ -213,6 +249,7 @@
 														</div>
 													</div>
 												</div>
+												-->
 											</div>
 									      </div>
 									      <div class="panel-footer clearfix">

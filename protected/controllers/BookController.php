@@ -127,9 +127,11 @@ class BookController extends Controller
 				$lepub_file=$LepubForm->lepub_file;
 				$workspace_id=$LepubForm->workspace;
 				$lepub_type=$LepubForm->lepub_type;
-
+				echo $lepub_file;
+				echo $lepub_type;
 				$lepub_file_name=functions::get_random_string();
-				$this->base64_to_file($lepub_file,Yii::app()->params['serialized'].$lepub_file_name.".".$lepub_type);/*TODO:specify epub or lepub*/
+				CUploadedFile::getInstance($LepubForm,'lepub_file')->saveAs(Yii::app()->params['serialized'].$lepub_file_name.".".$lepub_type);
+				//$this->base64_to_file($lepub_file,Yii::app()->params['serialized'].$lepub_file_name.".".$lepub_type);/*TODO:specify epub or lepub*/
 				$this->redirect(array('Lepub/import', 'bookId'=>$lepub_file_name,'workspace_id'=>$workspace_id,'lepub_type'=>$lepub_type));
 
 			}
