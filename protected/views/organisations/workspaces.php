@@ -18,10 +18,10 @@
  <!--
 	<div class="col-sm-12">
 		<div class="page-header">
-			<h3 class="content-title pull-left">Çalışma Alanı</h3>
+			<h3 class="content-title pull-left">Kategoriler</h3>
 			<a class="btn pull-right btn-primary " href="/workspaces/create?organisationId=<?php echo $organisationId; ?>"  popup="linden_team">
 				<i class="fa fa-plus-circle"></i>
-				<span><?php _e('Çalışma Alanı Ekle'); ?></span>
+				<span><?php _e('Kategori Ekle'); ?></span>
 			</a>
 		</div>
 	</div>-->
@@ -195,13 +195,13 @@ function sendUser(e){
 	  <div class="modal-content">
 		<div class="modal-header">
 		  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		  <h4 class="modal-title"><?php _e("Çalışma Alanı Ekle"); ?></h4>
+		  <h4 class="modal-title"><?php _e("Kategori Ekle"); ?></h4>
 		</div>
 		<div class="modal-body">
 		 	<form id="acl" method="post" class="form-horizontal">
 		 		<input type="hidden" name="status" value="">
 				<div class="form-group">
-					<label class="control-label col-md-3" for="workspace_name"><?php _e('Çalışma Alanı Adı'); ?><span class="required">*</span></label>
+					<label class="control-label col-md-3" for="workspace_name"><?php _e('Kategori Adı'); ?><span class="required">*</span></label>
 					<div class="col-md-9">
 						<input class="form-control" name="workspace_name" type="text">															
 					</div>
@@ -244,7 +244,7 @@ function sendUser(e){
 	  <div class="modal-content">
 		<div class="modal-header">
 		  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		  <h4 class="modal-title"><?php _e("Çalışma Alanı Sil"); ?></h4>
+		  <h4 class="modal-title"><?php _e("Kategori Sil"); ?></h4>
 		</div>
 		<div class="modal-body">
 		Silmek istediğinizden emin misiniz?
@@ -264,9 +264,9 @@ function sendUser(e){
 <div class="row">
 	<div class="col-sm-12">
 		<div class="page-header">
-				<h3 class="content-title pull-left"><?php _e('Çalışma Alanı Listesi'); ?></h3>
+				<h3 class="content-title pull-left"><?php _e('Kategori Listesi'); ?></h3>
 					
-				<a class="btn pull-right brand_color_for_buttons pageheader_button_margin" data-id="addWorkspace" data-toggle="modal" data-target="#addWorkspace"><i class="fa fa-plus-circle"></i><span> Çalışma Alanı Ekle</span></a>
+				<a class="btn pull-right brand_color_for_buttons pageheader_button_margin" data-id="addWorkspace" data-toggle="modal" data-target="#addWorkspace"><i class="fa fa-plus-circle"></i><span>Kategori Ekle</span></a>
 	
 			
 		</div>
@@ -278,15 +278,15 @@ function sendUser(e){
 
 <div class="box border blue" style="margin:20px;">
 	<div id="acl_info_box_event" class="box-title">
-		<h4 style="text-shadow:none"><i class="fa fa-info-circle"></i>Çalışma Alanı Listesi hakkında bilgiler!</h4>
+		<h4 style="text-shadow:none"><i class="fa fa-info-circle"></i>Kategori Listesi hakkında bilgiler!</h4>
 		<div class="tools">
 				<i class="fa fa-chevron-down"></i>
 		</div>
 	</div>
 	<div  id="acl_info_box" class="box-body big" style="display: none;">
 		<div class="jumbotron">
-		  <h2>Çalışma Alanı listesi,</h2>
-		  <p>Yayınlanan eserler çalışma alanlarına göre tutulmaktadır. Bu durumda siz de oluşturacağınız eseri istediğiniz çalışma alanında oluşturabilirsiniz</p>
+		  <h2>Kategori listesi,</h2>
+		  <p>eserlerin sınıflandırılması için kullanılan bir özelliktir.</p>
 		  
 		</div>	
 
@@ -315,8 +315,8 @@ function sendUser(e){
 					×
 				</a>-->
 
-				<a class="fa fa-times-circle close tip" data-original-title="<?php _e('Çalışma alanını sil') ?>" data-id="<?php echo $workspace['workspace_id']; ?>" style="margin-right:5px" data-toggle="modal" data-target="#confirmation"></a>
-				<a class="fa fa-edit close tip" data-original-title="<?php _e('Çalışma alanını düzenle') ?>" data-id="<?php echo base64_encode(json_encode($workspace_data)); ?>" style="margin-right:5px" data-toggle="modal" data-target="#addWorkspace"></a>
+				<a class="fa fa-times-circle close tip" data-original-title="<?php _e('Kategori sil') ?>" data-id="<?php echo $workspace['workspace_id']; ?>" style="margin-right:5px" data-toggle="modal" data-target="#confirmation"></a>
+				<a class="fa fa-edit close tip" data-original-title="<?php _e('Kategori düzenle') ?>" data-id="<?php echo base64_encode(json_encode($workspace_data)); ?>" style="margin-right:5px" data-toggle="modal" data-target="#addWorkspace"></a>
 				<!--<a class="fa fa-users close tip" data-original-title="<?php _e('Çalışma alanı kullanıcılarını düzenle') ?>" data-id="pop-<?php echo $workspace['workspace_id']; ?>" style="margin-right:5px" data-toggle="modal" data-target="#pop-<?php echo $workspace['workspace_id']; ?>"></a>-->
 
 				<p></p>
@@ -324,7 +324,7 @@ function sendUser(e){
 				<h4>
 					<table>
 						<tr>
-							<td style="width:200px;"><?php echo __("Çalışma Alanı Adı"); ?></td>
+							<td style="width:200px;"><?php echo __("Kategori Adı"); ?></td>
 							<td><?php echo $workspace['workspace_name']; ?></td>
 						</tr>
 					</table>
@@ -339,7 +339,7 @@ function sendUser(e){
 	{
 		?>
 		<div class="alert alert-block alert-warning fade in" style="margin:20px;">
-				<p></p><h4><i class="fa fa-exclamation-circle"></i> Uyarı</h4>Henüz herhangi bir Çalışma Alanı Listesi oluşturulmamış. Bu durum, eserlerinizin oluşturulmasına engel teşkil edecektir.<p></p>
+				<p></p><h4><i class="fa fa-exclamation-circle"></i> Uyarı</h4>Henüz herhangi bir Kategori Listesi oluşturulmamış. Bu durum, eserlerinizin oluşturulmasına engel teşkil edecektir.<p></p>
 		</div>
 <?php
 	}
