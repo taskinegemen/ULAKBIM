@@ -1579,10 +1579,14 @@ class epub3 {
 		$data=json_decode($this->book->data);
 		if(isset($data->imported_epub))
 		{	
-			print_r($serialized_book_path);
+			print_r($serialized_book_path."<br>");
+			print_r("tempdir:".$this->tempdir."<br>");
+
+			
 			if(file_exists($serialized_book_path) && is_dir($serialized_book_path))
 			{	
 				$this->copyDirectory($serialized_book_path,$this->tempdir);
+				//exec("cp -r ".$serialized_book_path." ".$this->tempdir)
 				$this->scanAndChangeLinks($this->tempdir,$data->imported_epub);
 				//TODO:replace http://editor.egemen.com with space 
 			}
@@ -1645,10 +1649,24 @@ class epub3 {
 		    if (is_dir($source . '/' . $file)) {
 		      if (!file_exists($dest . '/' . $file)) {
 		        mkdir($dest . '/' . $file, 777);
+		        exec("chmod -R 777 ".$dest . '/' . $file);
+
 		      }
-		      $this->copyDirectory($source . '/' . $file, $dest . '/' . $file);
+		      //echo $source . '/' . $file."<br>";
+		      $this->copyDirectory($source . '/'.$file, $dest . '/' . $file);
+		      
+
 		    } else {
-		      copy($source . '/' . $file, $dest . '/' . $file);
+		      //echo "<br>".$source . '/' . $file."<br>".$dest . '/' . $file."<br>";
+		      exec("cp ".$source.'/'.$file." ".$dest . '/' . $file);
+		      /*if(!@copy($source.$file, $dest . '/' . $file))
+		      {
+		      	$errors= error_get_last();
+			    echo "COPY ERROR: ".$errors['type'];
+			    echo "<br />\n".$errors['message'];
+		      	echo "kopyalanamadı..";
+		      }*/
+
 		    }
 		  }
 		   
