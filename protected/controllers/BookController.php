@@ -36,7 +36,7 @@ class BookController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','selectTemplate','delete','view','author','newBook','selectData','uploadFile','duplicateBook','updateCover','getPagesAndChapters',"copyBook","createTemplate","updateBookTitle","getBookPages",'bookCreate','getTemplates','createNewBook','fastStyle','getFastStyle','updateThumbnail','manageDemo','bookImport'),
+				'actions'=>array('create','update','selectTemplate','delete','view','author','newBook','selectData','uploadFile','duplicateBook','updateCover','getPagesAndChapters',"copyBook","createTemplate","updateBookTitle","getBookPages",'bookCreate','getTemplates','createNewBook','fastStyle','getFastStyle','updateThumbnail','manageDemo','bookImport','removeCover','removeThumbnail'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -1109,7 +1109,39 @@ class BookController extends Controller
 			$book->save();
 		}
 	}
+	public function actionRemoveCover($id,$bookId=null)
+	{
+		$bookId = ($id) ? $id : $bookId ;
 
+		$book=Book::model()->findByPk($bookId);
+
+		$bookData=json_decode($book->data,true);
+		if(isset($bookData['cover']))
+		{
+			unset($bookData['cover']);
+
+		}
+		$book->data=json_encode($bookData);
+		$book->save();
+
+	}
+	public function actionRemoveThumbnail($id,$bookId=null)
+	{
+		$bookId = ($id) ? $id : $bookId ;
+
+		$book=Book::model()->findByPk($bookId);
+
+		$bookData=json_decode($book->data,true);
+		if(isset($bookData['thumbnail']))
+		{
+			unset($bookData['thumbnail']);
+
+		}
+		$book->data=json_encode($bookData);
+		$book->save();
+
+	}
+	
 	public function actionUpdateBookTitle($bookId,$title=null,$author=null,$from="")
 	{
 		$book=$this->loadModel($bookId);
