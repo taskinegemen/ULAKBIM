@@ -616,6 +616,7 @@ class UserController extends Controller
 			if ($_POST['surname']) {
 				$user->surname=$_POST['surname'];
 			}
+			/*
 			if ($_POST['email']) {
 				$user->email=$_POST['email'];
 
@@ -645,7 +646,7 @@ class UserController extends Controller
 				$mail->setAttributes(array('title'=>'OKUTUS Şifre Sıfırlama','link'=>$link));
 		        $mail->sendMail();
 
-			}
+			}*/
 
 			if ($_POST['passwordEski']) {
 				$passOld=md5(sha1($_POST['passwordEski']));
