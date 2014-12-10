@@ -1051,6 +1051,7 @@ $( document ).ready(function () {
             window.parent = parent;
 
             console.log(parent);
+	    /*
             $.each(window.lindneo.book_users, function(index,key){
               console.log(key); 
               if(index != window.lindneo.tsimshian.socket.socket.sessionid)
@@ -1059,6 +1060,7 @@ $( document ).ready(function () {
                   control_value = 1;
                 }
             });
+	    */
 
             if (parent.has('.current_page').length !== 0) {
               alert(j__("Bulunduğunuz bölümü silemezsiniz!"));
