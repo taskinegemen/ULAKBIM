@@ -1601,7 +1601,12 @@ if($chapter_list)
 					margin:20px;
 					width:120px;
 					border:3px solid #fff; " ></img>
-					<i class="delete fa fa-pencil"></i></a>
+					<i class="delete fa fa-pencil"></i>
+
+					</a>
+					<a href="#box-cover2" data-toggle="modal">
+						<i style="margin-left:20px;top:25px;left:25px;position:absolute;" class="fa fa-minus"></i>
+					</a>
 					</div>
 				
 				</div>
@@ -1628,6 +1633,11 @@ if($chapter_list)
 					width:120px;
 					border:3px solid #fff; " ></img>
 					<i class="delete fa fa-pencil"></i></a>
+
+					<a href="#box-thumbnail2" data-toggle="modal">
+						<i style="margin-left:20px;top:25px;left:25px;position:absolute;" class="fa fa-minus"></i>
+					</a>
+
 					</div>
 				
 				</div>
@@ -2369,7 +2379,27 @@ $background= (!empty($img)) ? "background-image:url('".str_replace(" ", "", $img
 	</div>
   </div>
 <!-- /THUMBNAIL BOX CONFIGURATION MODAL FORM-->
-
+<!-- THUMBNAIL BOX REMOVE CONFIGURATION MODAL FORM-->
+<div class="modal fade" id="box-thumbnail2" style="top:150px" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		  <h4 class="modal-title"><?php _e('Kapak Resmi') ?></h4>
+		</div>
+		<div class="modal-body">
+			<div class="upload-cover-preview" id="upload-cover-preview">
+				Öngörüntü resmini silmek istediğinizden emin misiniz?
+			</div>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e('Kapat') ?></button>
+		  <button type="button" id="thumbnail2Save" class="btn btn-primary"><?php _e('Tamam') ?></button>
+		</div>
+	  </div>
+	</div>
+  </div>
+<!-- /THUMBNAIL BOX REMOVE CONFIGURATION MODAL FORM-->
 <!-- COVER BOX CONFIGURATION MODAL FORM-->
 <div class="modal fade" id="box-cover" style="top:150px" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
@@ -2392,6 +2422,27 @@ $background= (!empty($img)) ? "background-image:url('".str_replace(" ", "", $img
 	</div>
   </div>
 <!-- /COVER BOX CONFIGURATION MODAL FORM-->
+<!-- COVER BOX REMOVE CONFIGURATION MODAL FORM-->
+<div class="modal fade" id="box-cover2" style="top:150px" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		  <h4 class="modal-title"><?php _e('Kapak Resmi') ?></h4>
+		</div>
+		<div class="modal-body">
+			<div class="upload-cover-preview" id="upload-cover-preview">
+				Kapak resmini silmek istediğinizden emin misiniz?
+			</div>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal"><?php _e('Kapat') ?></button>
+		  <button type="button" id="cover2Save" class="btn btn-primary"><?php _e('Tamam') ?></button>
+		</div>
+	  </div>
+	</div>
+  </div>
+<!-- /COVER BOX REMOVE CONFIGURATION MODAL FORM-->
 <!--
 <div id="preview_page">
 	Preview Sayfası buraya gelecek....
@@ -2454,6 +2505,26 @@ $background= (!empty($img)) ? "background-image:url('".str_replace(" ", "", $img
                 });
 			};
 		});
+		$('#cover2Save').click(function(){
+				$.ajax({
+						type: "POST",
+                        data: { img: cover_base64},
+                        url:'/book/removeCover/'+window.lindneo.currentBookId,
+                }).done(function(hmtl){
+                	$("#coverRel").attr('src','/css/images/deneme_cover.jpg');
+                	$('#box-cover2').modal('toggle');
+                });
 
+		});
+		$('#thumbnail2Save').click(function(){
+				$.ajax({
+						type: "POST",
+                        data: { img: cover_base64},
+                        url:'/book/removeThumbnail/'+window.lindneo.currentBookId,
+                }).done(function(hmtl){
+                	$("#thumbRel").attr('src','/css/images/deneme_cover.jpg');
+                	$('#box-thumbnail2').modal('toggle');
+                });
 
+		});
 </script>
