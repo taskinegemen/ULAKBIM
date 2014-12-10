@@ -1091,6 +1091,7 @@ $( document ).ready(function () {
             }
             var page_id=$(this).parent().attr('page_id');
             var control_value = 0;
+	    /*
             $.each(window.lindneo.book_users, function(index,key){
               console.log(key);
               if(index != window.lindneo.tsimshian.socket.socket.sessionid)
@@ -1099,6 +1100,7 @@ $( document ).ready(function () {
                   control_value = 1;
                 }
             });
+	    */
             if (page_id==window.lindneo.currentPageId) {
               alert(j__("Bulunduğunuz sayfayı silemezsiniz!"));
               control_value = 1;
