@@ -589,7 +589,6 @@ window.lindneo.toolbox = (function(window, $, undefined){
         $('.toolbox .tool, .toolbox-btn').each(function (index) {
 
               var rel=$(this).attr('rel');
-              
               var relValue = component.getProperty(rel);
               if(rel == "rotate"){
                 //relValue =

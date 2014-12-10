@@ -548,27 +548,49 @@ var createGraphComponent = function ( event, ui, oldcomponent ) {
               .addClass("bar-chart-slice-holder slice-holder")
               .text(j__("Arkaplan Rengi:"))
               .appendTo(propertyBarDiv);
-
+              
+              var color_picker_id1="color_picker_"+Date.now()+"_1";
               propertyContentBackground = $('<input type="color">')
                 .addClass("color-picker-box radius color")
+                .attr("id",color_picker_id1)
                 .attr('placeholder',"#bbbbbb")
                 .change(function(){
                   graphProperties.bar.background=$(this).val();
                 })
                 .appendTo(propertyContentDiv);
 
+                propertyContentBackground.click(function(event){
+                        event.preventDefault();
+                        $("#color-input").val($(this).val());
+                        $("#color-input").minicolors('value',$(this).val());
+                        $("#color-input").attr("data_type",color_picker_id1);
+                        $('#colorModal').modal();
+                      });
+
               var propertyContentInput = $('<span>')
                 .text(j__("Çizgi Rengi:"))
                 .appendTo(propertyContentDiv);   
+              
+              var color_picker_id2="color_picker_"+Date.now()+"_2";
 
               propertyContentStroke = $('<input type="color">')
                 .addClass("color-picker-box radius color")
+                .attr("id",color_picker_id2)
                 .change(function(){
                   graphProperties.bar.stroke=$(this).val();
                 })
                 .attr('placeholder',"#bbbbbb")
                 .appendTo(propertyContentDiv); 
-          
+
+                propertyContentStroke.click(function(event){
+                        event.preventDefault();
+                        $("#color-input").val($(this).val());
+                        $("#color-input").minicolors('value',$(this).val());
+                        $("#color-input").attr("data_type",color_picker_id2);
+                        $('#colorModal').modal();
+                      });
+
+
           var propertyPieDiv = $('<div>')
             .addClass("chart_prop pie-chart")
             .css("display","none")
@@ -609,14 +631,23 @@ var createGraphComponent = function ( event, ui, oldcomponent ) {
                     var newPieRowColorLbl = $('<label>')
                       .text(j__("Renk:"))
                        .appendTo(newPieRow);
+                    var color_picker_id="color_picker_"+Date.now();
                     var newPieRowColor = $('<input type="color">')
                       .addClass("color-picker-box radius color")
+                      .attr('id',color_picker_id)
                       .val(item.color)
                       .attr("placeholder","e.g. #bbbbbb")
                       .change( function (){
                         item.color = $(this).val()
                       })
                       .appendTo(newPieRowColorLbl);
+                      newPieRowColor.click(function(event){
+                        event.preventDefault();
+                        $("#color-input").val($(this).val());
+                        $("#color-input").minicolors('value',$(this).val());
+                        $("#color-input").attr("data_type",color_picker_id);
+                        $('#colorModal').modal();
+                      });
 
              return newPieRow;
 
