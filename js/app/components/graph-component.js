@@ -705,7 +705,7 @@ var createGraphComponent = function ( event, ui, oldcomponent ) {
 
 
             }
-            rows[$.now()]=item;
+            rows[$.now()+""+Math.floor((Math.random() * 1000000000) + 1)]=item;
            console.log(rows);
           }
 
