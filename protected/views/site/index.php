@@ -118,7 +118,10 @@ function sendRight(e){
 					<div class="col-md-9">
 			 			<span id="workspaces">
 						 	<?php 
-						 	foreach ($workspaces as $key => $workspace) { ?>
+						 	$workspace_counter=0;
+						 	foreach ($workspaces as $key => $workspace) { 
+						 		
+						 		?>
 				 				<div class="radio SelectWorkspace" id="uniform-<?php echo $workspace["workspace_id"]; ?>">
 				 					<span>
 				 						<input class="uniform" id="<?php echo $workspace["workspace_id"]; ?>" value="<?php echo $workspace["workspace_id"]; ?>" type="radio" name="CopyBook">
@@ -126,7 +129,7 @@ function sendRight(e){
 				 				</div>
 				 				<label for="<?php echo $workspace["workspace_id"]; ?>"><?php echo $workspace["workspace_name"]; ?></label>
 				 				<br>
-						 	<?php }
+						 	<?php $workspace_counter++;}
 						 	?>
 						</span>
 					</div>
@@ -373,7 +376,7 @@ foreach ($workspacesOfUser as $key => $workspace) {
 		                <div class="<?php echo ($userType==='owner' || $userType==='editor' || $userType==='user') ? 'editor_mybooks_book_settings' : '' ; ?>">
 		                    <?php if ($userType==='owner') { ?>
 		                    <!--<a href="#box-config<?php echo $book->book_id; ?>" data-toggle="modal" class="config"><i class="fa fa-users tip" data-original-title="Editörler"></i></a>-->
-		                    <a class="remove_book" data-id="<?php echo $book->book_id; ?>" data-toggle="modal" data-target="#myModal"><i class="fa fa-trash-o tip" data-original-title="Sil"></i></a>
+		                    <a class="remove_book" data-id="<?php echo $book->book_id; ?>" data-title="<?php echo $book->title; ?>" data-toggle="modal" data-target="#myModal"><i class="fa fa-trash-o tip" data-original-title="Sil"></i></a>
 		                    <a class="copyThisBook" data-id="<?php echo $workspace->workspace_name; ?>" data-name="<?php echo $book->title; ?>" data-toggle="modal" data-target="#copyBook" book-id="<?php echo $book->book_id; ?>"><i class="fa fa-copy tip" data-original-title="Çoğalt"></i></a>
                             
                             <div class="clearfix"></div>
@@ -430,6 +433,7 @@ foreach ($workspacesOfUser as $key => $workspace) {
         <h4 class="modal-title" id="myModalLabel">Sil</h4>
       </div>
       <div class="modal-body">
+        Eser adı: <b><span id="remove_message"></span></b><br>
         Silmek istediğinizden emin misiniz?
       </div>
       <input type="hidden" name="book_id" id="book_id" value="">
@@ -447,10 +451,17 @@ $(document).on("click",".copyThisBook",function(e){
 	bookId = $(this).attr('book-id');
 	workspace_name = $(this).data('id');
 	book_name = $(this).data('name');
-	var book_copy_data = workspace_name + " / " + book_name;
-	$("#book_data").html(book_copy_data);
+	//var book_copy_data = workspace_name + " / " + book_name;
+	//$("#book_data").html(book_copy_data);
+	$("#newContentTitle").val(book_name);
 	
 });
+$(".remove_book").click(function(event){
+	event.preventDefault();
+	$("#remove_message").html($(this).data("title"));
+
+});
+
 $(document).on("click",".updateThisBookTitle",function(e){
 	bookId = $(this).attr('book-id');
 	var id=$(this).data("id");
@@ -475,7 +486,9 @@ $("#copy_book").click(function(){
     window.location.assign(link);
 });
 
-
+$(".copyThisBook").click(function(){
+	$(".SelectWorkspace").get(0).click();
+});
 $("#update_book_title").click(function(){
 	var title=$("#updateContentTitle").val();
 	var author=$("#updateContentAuthor").val();

@@ -1154,7 +1154,11 @@ class BookController extends Controller
 		$book->save();
 		if ($from=="management") {
 			$this->redirect(array('management/books'));
-		}else{
+		}
+		else if($from=="templates"){
+			$this->redirect(array('organisations/templates/'.$book->workspace_id));
+		}
+		else{
 			$this->redirect(array('site/index'));
 		}
 	}

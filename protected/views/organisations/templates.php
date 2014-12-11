@@ -97,8 +97,8 @@ $userid=Yii::app()->user->id;
 		            <div class="reader_book_card_book_cover">					
 		                	<?php if ($userType=="owner") { ?>
 		                <div class="editor_mybooks_book_settings">
-			                    <a class="remove_book" data-id="<?php echo $book->book_id; ?>" data-toggle="modal" data-target="#myModal"><i class="fa fa-trash-o tip" data-original-title="Sil"></i></a>
-			                    <a class="updateThisBookTitle" data-id="updateBookTitle" data-toggle="modal" data-target="#updateBookTitle" book-id="<?php echo $book->book_id; ?>"><i class="fa fa-edit tip" data-original-title="Düzenle"></i></a>
+			                    <a class="remove_book" data-id="<?php echo $book->book_id; ?>" data-title="<?php echo $book->title; ?>" data-toggle="modal" data-target="#myModal"><i class="fa fa-trash-o tip" data-original-title="Sil"></i></a>
+			                    <a class="updateThisBookTitle" data-id="updateBookTitle" data-title="<?php echo $book->title; ?>" data-toggle="modal" data-target="#updateBookTitle" book-id="<?php echo $book->book_id; ?>"><i class="fa fa-edit tip" data-original-title="Düzenle"></i></a>
 		                </div>
 		                	<?php } ?>
 		                <?php 
@@ -135,9 +135,10 @@ $userid=Yii::app()->user->id;
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <h4 class="modal-title" id="myModalLabel">Eseri sil</h4>
       </div>
       <div class="modal-body">
+      	Eser ismi: <b><span id="remove_message"></span></b><br>
         Silmek istediğinizden emin misiniz?
       </div>
       <input type="hidden" name="book_id" id="book_id" value="">
@@ -154,6 +155,7 @@ var bookId="";
 
 $(document).on("click",".updateThisBookTitle",function(e){
 	bookId = $(this).attr('book-id');
+	$("#updateContentTitle").val($(this).data("title"));
 });
 
 var workspaceId="";
@@ -166,9 +168,18 @@ $(document).on("click",".SelectWorkspace",function(e){
 
 $("#update_book_title").click(function(){
 	var title=$("#updateContentTitle").val();
-	var link ="/book/updateBookTitle?bookId="+bookId+'&title='+title;
+	var link ="/book/updateBookTitle?bookId="+bookId+'&title='+title+'&from=templates';
     window.location.assign(link);
 });
+
+$(".remove_book").click(function(event){
+	event.preventDefault();
+	$("#myModal").modal();
+	$("#remove_message").html($(this).data("title"));
+
+});
+
+
 </script>
 <script type="text/javascript">
 	$().ready(function(){
