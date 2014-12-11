@@ -1,3 +1,23 @@
+    <script src="http://labs.abeautifulsite.net/jquery-minicolors/jquery.minicolors.js"></script>
+    <link rel="stylesheet" href="http://labs.abeautifulsite.net/jquery-minicolors/jquery.minicolors.css">
+
+<div class="modal fade" id="colorModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                
+				<div class="form-group">
+                       <label for="position-bottom-left">Renk seçiniz</label>
+                      <input type="text" id="color-input" class="form-control demo" data-position="bottom left" value="#0088cc">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Vazgeç</button>
+                <button type="button" id="color-save" class="btn btn-primary">Kaydet</button>
+        </div>
+    </div>
+  </div>
+</div>
 <?php
 /* @var $this BookController */
 /* @var $model Book */
@@ -76,7 +96,92 @@ if($chapter_list)
 
 
 	$(document).ready(function(){
-	
+		
+		$("#generic-color").click(function(event){
+			event.preventDefault();
+
+			$("#color-input").val($("#generic-color").val());
+			$("#color-input").minicolors('value',$("#generic-color").val());
+			$("#color-input").attr("data_type","generic");
+			$('#colorModal').modal();
+		});
+		$("#shape-generic-color").click(function(event){
+			event.preventDefault();
+
+			$("#color-input").val($("#shape-generic-color").val());
+			$("#color-input").minicolors('value',$("#shape-generic-color").val());
+			$("#color-input").attr("data_type","shape-generic");
+			$('#colorModal').modal();
+		});
+		$("#rtext-generic-color").click(function(event){
+			event.preventDefault();
+
+			$("#color-input").val($("#rtext-generic-color").val());
+			$("#color-input").minicolors('value',$("#rtext-generic-color").val());
+			$("#color-input").attr("data_type","rtext-generic");
+			$('#colorModal').modal();
+		});
+		$("#color-save").click(function(event){
+			$('#colorModal').modal('hide');
+			var data_type=$("#color-input").attr("data_type");
+			if(data_type=="generic")
+			{
+				$("#generic-color").val($("#color-input").val());
+				$("#generic-color").change();
+			}
+			else if(data_type=="shape-generic")
+			{
+				$("#shape-generic-color").val($("#color-input").val());
+				$("#shape-generic-color").change();
+			}
+			else if(data_type=="rtext-generic")
+			{
+				$("#rtext-generic-color").val($("#color-input").val());
+				$("#rtext-generic-color").change();
+			}
+			else
+			{
+				/*graph color picker*/
+				$("#"+data_type).val($("#color-input").val());
+				$("#"+data_type).change();
+			}			
+			
+			
+			
+			
+		});
+		/*demo begins*/
+		$('.demo').each( function() {
+                //
+                // Dear reader, it's actually very easy to initialize MiniColors. For example:
+                //
+                //  $(selector).minicolors();
+                //
+                // The way I've done it below is just for the demo, so don't get confused
+                // by it. Also, data- attributes aren't supported at this time...they're
+                // only used for this demo.
+                //
+                $(this).minicolors({
+                    control: $(this).attr('data-control') || 'hue',
+                    defaultValue: $(this).attr('data-defaultValue') || '',
+                    inline: $(this).attr('data-inline') === 'true',
+                    letterCase: $(this).attr('data-letterCase') || 'lowercase',
+                    opacity: $(this).attr('data-opacity'),
+                    position: $(this).attr('data-position') || 'bottom left',
+                    change: function(hex, opacity) {
+
+                        if( !hex ) return;
+                        if( opacity ) hex += ', ' + opacity;
+                        if( typeof console === 'object' ) {
+                            console.log(hex);
+                        }
+                    },
+                    theme: 'bootstrap'
+                });
+
+            });
+		/*demo ends*/
+
 		//$('#editor_view_pane').css({'margin-left':'200px'});
 		var adaptive_width=$('.components').width()+50+"px";
 		//console.log(adaptive_width);
@@ -353,7 +458,7 @@ if($chapter_list)
 			<div class="text-options wrap-options latex-options table-options toolbox" style="display:inline-block;">
 					
 					
-					<input class='tool color' rel='color' type="color" class="color-picker-box radius " placeholder="e.g. #bbbbbb" title="Yazı Rengi" />
+					<input class='tool color' id="generic-color" rel='color' type="color" class="color-picker-box radius " placeholder="e.g. #bbbbbb" title="Yazı Rengi" />
 				
 					<select class='tool select' rel='fast-style' id="fast-style" class="radius" title="Başlık Tipi">
 						<option value="">Serbest</option>
@@ -536,7 +641,7 @@ if($chapter_list)
 			<div class="rtext-options toolbox" style="display:inline-block;">
 					
 					
-					<input class='tool color' rel='color' type="color" class="color-picker-box radius " placeholder="e.g. #bbbbbb" title="Yazı Rengi" />
+					<input class='tool color' id="rtext-generic-color" rel='color' type="color" class="color-picker-box radius " placeholder="e.g. #bbbbbb" title="Yazı Rengi" />
 				
 					<select class='tool select' rel='fast-style' id="fast-style" class="radius" title="Başlık Tipi">
 						<option value="">Serbest</option>
@@ -748,7 +853,7 @@ if($chapter_list)
 			
 			<div class="shape-options toolbox"  style="display:inline-block;">
 				<div class="vertical-line"></div>
-				<input class='tool-color tool color' rel='fillStyle' type="color" class="color-picker-box radius " placeholder="e.g. #bbbbbb" title="Şeklin Rengi" />
+				<input id="shape-generic-color" class='tool-color tool color' rel='fillStyle' type="color" class="color-picker-box radius " placeholder="e.g. #bbbbbb" title="Şeklin Rengi" />
 				<div class="vertical-line"></div>
 				
 						<i class="icon-opacity grey-6"></i>
