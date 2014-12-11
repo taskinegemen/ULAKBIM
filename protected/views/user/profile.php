@@ -205,8 +205,8 @@ window.addEventListener('load',function(){
         }
 
         //Bind a click to a button to capture an image from the video stream
-        var el = document.getElementById("capture");
-        el.addEventListener("click", captureImage, false);
+        //var el = document.getElementById("capture");
+        //el.addEventListener("click", captureImage, false);
     
     </script>
     <script type="text/javascript">
