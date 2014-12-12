@@ -38,7 +38,7 @@
         <div class="myprofile_information_components">
         <p>Profilim</p>
         <span id="feedback"></span>
-        <a href="#" class="btn btn-success" style="float:right" id="updateProfile">Değişiklikleri Kaydet</a>
+        <!--<a href="#" class="btn btn-success" style="float:right" id="updateProfile">Değişiklikleri Kaydet</a>-->
         </div>
         
         <div class="myprofile_information_components">
@@ -54,6 +54,12 @@
         <div class="myprofile_information_components">
         <p>E-Mail Adres</p>
         <div class="myprofile_info_edit"><i class="fa fa-edit"></i> <form id="myprofile_info_edit"><input id="email" placeholder="<?php echo $user->email; ?>" /></form></div>
+        </div>
+        
+        <div class="myprofile_information_components">
+        <div class="myprofile_info_edit">
+            <a href="#" class="btn btn-success" style="float:left" id="updateProfile">Değişiklikleri Kaydet</a>
+        </div>
         </div>
         
         <!--
@@ -93,9 +99,11 @@
 		  <h4 class="modal-title"><?php _e('Profil Resmi') ?></h4>
 		</div>
 		<div class="modal-body">
-			<video id="video" style="width:200px; height:200px"></video>
+			<!--
+            <video id="video" style="width:200px; height:200px"></video>
 			<br>
 			<a id="capture" class="btn btn-success">Fotoğraf Çek</a>
+            -->
 			<input class="file-cover-up" name="logo" type="file" />
 			<br><br>
 			<img class="upload-cover-preview" id="upload-cover-preview" style="width:100%">
