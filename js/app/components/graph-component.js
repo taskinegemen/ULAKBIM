@@ -471,10 +471,10 @@ var createGraphComponent = function ( event, ui, oldcomponent ) {
             .change(function(){
 
               var RowSize = size(rows);
-                console.log(RowSize);
+                console.log("Row Size:"+RowSize);
               var that = this;
               var newLenght = $(this).val();
-                console.log(newLenght);
+                console.log("New Row Size:"+newLenght);
 
               if(RowSize>newLenght){
                 console.log('Silme');
