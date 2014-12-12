@@ -328,7 +328,7 @@ var createPlumbComponent = function ( event, ui ,oldcomponent) {
         $("<br>").appendTo(mainDiv);
           
         var eachWordLabel = $('<label>')
-          .text(j__("Bulmacanın içeriğindeki kelimeleri virgül kullaran giriniz. Örnek: kapı,pırasa"))
+          .text(j__("Bulmacanın içeriğindeki kelimeleri virgül kullanarak giriniz. Örnek: kapı,pırasa"))
           .appendTo(mainDiv);
         $("<br>").appendTo(mainDiv);
         var eachWordDiv = $('<input type="text">')

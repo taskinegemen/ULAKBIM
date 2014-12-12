@@ -149,7 +149,7 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
   $('<div>').componentBuilder({
     top:top,
     left:left,
-    title: j__("Puzzle"),
+    title: j__("Yap-Boz"),
     btnTitle : j__("Ekle"), 
     beforeClose : function () {
       /* Warn about not saved work */

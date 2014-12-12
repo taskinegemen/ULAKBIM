@@ -155,7 +155,7 @@ var createCquizComponent = function ( event, ui, oldcomponent ) {
   $('<div>').componentBuilder({
     top:top,
     left:left,
-    title: j__("Card Quiz"),
+    title: j__("Soru Kartı"),
     btnTitle : j__("Ekle"), 
     beforeClose : function () {
       /* Warn about not saved work */
