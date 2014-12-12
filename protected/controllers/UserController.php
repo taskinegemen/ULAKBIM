@@ -616,6 +616,9 @@ class UserController extends Controller
 			if ($_POST['surname']) {
 				$user->surname=$_POST['surname'];
 			}
+			if ($_POST['email']) {
+				$user->email=$_POST['email'];
+			}
 			/*
 			if ($_POST['email']) {
 				$user->email=$_POST['email'];
