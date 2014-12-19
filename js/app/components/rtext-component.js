@@ -30,6 +30,12 @@ $(document).ready(function(){
           that._change( el.innerHTML);
         })
 
+        this.element.dblclick(function(event){
+        	//event.preventDefault();
+        	this.click();
+        	alert("sdfsdf");
+        });
+
         var rtextmessage=$('<div  id="message_'+componentrtextid+'" contenteditable="true" style="width100%; height:100%; overflow:hidden;">'+this.options.component.data.rtextdiv.val+'</div>');
         this.rtextElement = rtextmessage;
         rtextmessage.appendTo(this.element);
@@ -44,7 +50,7 @@ $(document).ready(function(){
         that.element.on('focusout mouseup',function(event){
            
             
-
+          window.lindneo.toolbox.savedSel=window.lindneo.toolbox.saveSelection(document.getElementById("message_"+componentrtextid));
           justify_element(that.element[0]);
        
         });
@@ -122,10 +128,12 @@ $(document).ready(function(){
         //$( ".rtext-controllers div:contains('asdasdsa')" ).css( "text-decoration", "" );
 
         */
-
+        console.log(propertyName+"-"+propertyValue);
         switch (propertyName){
           case 'color':
-            this.rtextElement.focus();
+            /*this.rtextElement.focus();*/
+            var componentid='message_rtext'+this.options.component.id;
+            window.lindneo.toolbox.restoreSelection(document.getElementById(componentid),window.lindneo.toolbox.savedSel);
             document.execCommand("foreColor", false, propertyValue);
 
             /*
@@ -136,12 +144,21 @@ $(document).ready(function(){
             */
           break;
           case 'font-weight':
-            /*this.rtextElement.focus();
+            /*
+            this.rtextElement.focus();
             document.execCommand("bold", false, null);
+            this.rtextElement.focus();
+            console.log(this.rtextElement);
             */
+            var componentid='message_rtext'+this.options.component.id;
+            window.lindneo.toolbox.restoreSelection(document.getElementById(componentid),window.lindneo.toolbox.savedSel);
+			document.execCommand("bold", false, null);            
+
+            /*
             var content_text = '<span style="font-weight: '+propertyValue+';">'+localStorage.getItem("selection_text")+'</span>';
             $('#message_rtext'+this.options.component.id).html(this.options.component.data.rtextdiv.val.replace(localStorage.getItem("selection_text"), content_text));  
-            that._change( $('#message_rtext'+this.options.component.id).html());
+            that._change( $('#message_rtext'+this.options.component.id).html());*/
+
             //localStorage.setItem("selection_text", '');
             
           break;
@@ -149,14 +166,22 @@ $(document).ready(function(){
           case 'font-style':
             /*this.rtextElement.focus();
             document.execCommand("italic", false, null); 
-            */var content_text = '<span style="font-style: '+propertyValue+';">'+localStorage.getItem("selection_text")+'</span>';
+            */
+            var componentid='message_rtext'+this.options.component.id;
+            window.lindneo.toolbox.restoreSelection(document.getElementById(componentid),window.lindneo.toolbox.savedSel);
+            document.execCommand("italic", false, null); 
+            /*
+            var content_text = '<span style="font-style: '+propertyValue+';">'+localStorage.getItem("selection_text")+'</span>';
             $('#message_rtext'+this.options.component.id).html(this.options.component.data.rtextdiv.val.replace(localStorage.getItem("selection_text"), content_text));  
-            
+            */
           break;
 
           case 'text-decoration':
-            this.rtextElement.focus();
-            document.execCommand("underline", false, null); 
+            /*this.rtextElement.focus();
+            document.execCommand("underline", false, null); */
+            var componentid='message_rtext'+this.options.component.id;
+            window.lindneo.toolbox.restoreSelection(document.getElementById(componentid),window.lindneo.toolbox.savedSel); 
+            document.execCommand("underline", false, null);          
             /*
             var content_text = '<span style="text-decoration: '+propertyValue+';">'+localStorage.getItem("selection_text")+'</span>';
             $('#message_rtext'+this.options.component.id).html(this.options.component.data.rtextdiv.val.replace(localStorage.getItem("selection_text"), content_text));  
@@ -166,18 +191,27 @@ $(document).ready(function(){
           break;
 
           case 'font-size':
-            this.rtextElement.focus();
-            document.execCommand("fontSize", false, propertyValue);
-            /*
+          	
+            /*this.rtextElement.focus();
+            document.execCommand("fontSize", false, propertyValue);*/
+           
+       
+            /*document.execCommand("fontSize", false, propertyValue);*/            
+            
             var content_text = '<span style="font-size: '+propertyValue+';">'+localStorage.getItem("selection_text")+'</span>';
             $('#message_rtext'+this.options.component.id).html(this.options.component.data.rtextdiv.val.replace(localStorage.getItem("selection_text"), content_text));  
             that._change( $('#message_rtext'+this.options.component.id).html());
             //localStorage.setItem("selection_text", '');
-            */
+
+                  var componentid='message_rtext'+this.options.component.id;
+            window.lindneo.toolbox.restoreSelection(document.getElementById(componentid),window.lindneo.toolbox.savedSel);
+            
           break;
 
           case 'font-family':
-            this.rtextElement.focus();
+            //this.rtextElement.focus();
+            var componentid='message_rtext'+this.options.component.id;
+            window.lindneo.toolbox.restoreSelection(document.getElementById(componentid),window.lindneo.toolbox.savedSel);
             document.execCommand("fontName", false, propertyValue);
             /*
             //console.log('deneme');
@@ -190,9 +224,14 @@ $(document).ready(function(){
 
           case 'line-height':
             //console.log('deneme');
+
+
             var content_text = '<span style="line-height: '+propertyValue+';">'+localStorage.getItem("selection_text")+'</span>';
             $('#message_rtext'+this.options.component.id).html(this.options.component.data.rtextdiv.val.replace(localStorage.getItem("selection_text"), content_text));  
             that._change( $('#message_rtext'+this.options.component.id).html());
+
+            var componentid='message_rtext'+this.options.component.id;
+            window.lindneo.toolbox.restoreSelection(document.getElementById(componentid),window.lindneo.toolbox.savedSel);
             //localStorage.setItem("selection_text", '');
              
           break;
