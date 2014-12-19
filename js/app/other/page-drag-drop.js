@@ -861,7 +861,7 @@ $( document ).ready(function () {
 			$('.selected').trigger('unselect');	
 	})
   	.dblclick(function(e){
-		$('.selected').trigger('unselect');
+		//$('.selected').trigger('unselect');
 		//window.lindneo.toolbox.deleteComponentFromSelection();
 	});
 

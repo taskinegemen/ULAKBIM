@@ -30,11 +30,6 @@ $(document).ready(function(){
           that._change( el.innerHTML);
         })
 
-        this.element.dblclick(function(event){
-        	//event.preventDefault();
-        	this.click();
-        	alert("sdfsdf");
-        });
 
         var rtextmessage=$('<div  id="message_'+componentrtextid+'" contenteditable="true" style="width100%; height:100%; overflow:hidden;">'+this.options.component.data.rtextdiv.val+'</div>');
         this.rtextElement = rtextmessage;
