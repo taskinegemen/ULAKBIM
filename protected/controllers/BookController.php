@@ -948,6 +948,13 @@ class BookController extends Controller
 		));
 	}
 
+	public function getDataGiveLink($bookId,$pageId,$data)
+	{
+		$folder=Yii::app()->params['storage'].$bookId;
+		$filename="pdf_".$pageId;
+		$file=functions::save_base64_file($data,$filename,$folder);
+		return Yii::app()->request->getBaseUrl(true)."/uploads/files/".$bookId."/".$filename.".jpeg";
+	}
 	public function actionAuthor($bookId=null,$page=null,$component=null,$id=null,$id2=null){
 		$this->pageTitle = "Kitap Düzenleme";
 		$this->layout = '//layouts/author';
@@ -1009,6 +1016,7 @@ class BookController extends Controller
 		$this->render('author',array(
 			'model'=>$model,
 			'page_id'=>$page,
+			'bookId'=>$bookId,
 			'component_id'=>$component,
 			'bookWidth'=>$bookSize['width'],
 			'bookHeight'=>$bookSize['height'],

@@ -109,11 +109,13 @@ class LepubController extends Controller
         		   					$new_page_id=$this->createUniqueId(Page,'page_id');
         		   					$new_page=new Page();
         		   					$new_page->attributes=$page->attributes;
+								$new_page->pdf_data=$page->pdf_data;
         		   					$new_page->page_id=$new_page_id;
         		   					$new_page->chapter_id=$new_chapter_id;
         		   					if($new_page->save())
         		   					{
                           /*component list begins*/
+
         		   						foreach ($serialized_components as $component) 
         		   						{
                             if($component->page_id==$page_id){

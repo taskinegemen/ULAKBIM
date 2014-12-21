@@ -127,6 +127,7 @@ return array(
 			'showScriptName'=>false,
 			//'caseSensitive'=>false,     
 			'rules'=>array(
+				'gii/<controller:\w+>/<action:[\w-]+>' => 'gii/<controller>/<action>',
 				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				'<controller:\w+>/<action:\w+>/<id:\w+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>/<id:\w+>/<id2:\w+>'=>'<controller>/<action>',
