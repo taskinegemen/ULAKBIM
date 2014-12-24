@@ -1,5 +1,5 @@
-    <script src="http://labs.abeautifulsite.net/jquery-minicolors/jquery.minicolors.js"></script>
-    <link rel="stylesheet" href="http://labs.abeautifulsite.net/jquery-minicolors/jquery.minicolors.css">
+    <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/lib/jquery.minicolors.js"></script>
+    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/jquery.minicolors.css">
 
 <div class="modal fade" id="colorModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
     <div class="modal-dialog">
@@ -346,9 +346,9 @@ if($chapter_list)
 					<ul>
 
 			         
-			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportPdfBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("PDF İndir"); ?></i></a></li>
-			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("EPub indir"); ?></i></a></li>
-			         <li><a href="<?php echo $this->createUrl("Lepub/Export", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("LEPub indir"); ?></i></a></li>
+			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportPdfBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("PDF Olarak Kaydet"); ?></i></a></li>
+			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("EPub Olarak Kaydet"); ?></i></a></li>
+			         <li><a href="<?php echo $this->createUrl("Lepub/Export", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("LEPub Olarak Kaydet"); ?></i></a></li>
         
 			         <!--<li>
 			         	<?php
