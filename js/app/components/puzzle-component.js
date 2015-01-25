@@ -194,8 +194,11 @@ var createPuzzleComponent = function ( event, ui, oldcomponent ) {
       };
       if(typeof oldcomponent !== 'undefined'){
         window.lindneo.tlingit.componentHasDeleted( oldcomponent, oldcomponent.id );
+        console.log("Log Kaydı: Yap-boz Kutusu silindi.",oldcomponent);
       };
-      window.lindneo.tlingit.componentHasCreated( component );
+      var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+      console.log("Log Kaydı: Yap-boz Kutusu oluşturuldu.",componentWithId);
+
     },
     onComplete:function (ui){
       var mainDiv = $('<div>')

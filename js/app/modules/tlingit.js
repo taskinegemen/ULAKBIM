@@ -196,7 +196,8 @@ window.lindneo.tlingit = (function(window, $, undefined){
     
     //co-workers have created a new component.
     
-    createComponent(component);
+    var componentWithId=createComponent(component);
+    return componentWithId;
 
   };
 
@@ -209,7 +210,7 @@ window.lindneo.tlingit = (function(window, $, undefined){
     // create component
     // server'a post et
     // co-worker'lara bildir
-
+    
 
 
     oldcomponent_id = component_id;
@@ -237,8 +238,8 @@ window.lindneo.tlingit = (function(window, $, undefined){
 
     delete fakeComponent["data"];
     //console.log(fakeComponent);
-    //console.log(oldcomponent_id);
-    window.lindneo.dataservice
+    /*console.log("OLD COMPONENT",oldcomponent_id);*/
+    var resultx=window.lindneo.dataservice
       .send( 'AddComponent', 
         { 
           'pageId' : window.lindneo.currentPageId, 
@@ -259,7 +260,19 @@ window.lindneo.tlingit = (function(window, $, undefined){
             */
             response.result.component.data = component.data;
 
+            /*egemen begins*/
+            /*console.log("Real Component:",response.result.component);
+            console.log("Old Component ID",oldcomponent_id);*/
 
+            var myresult=window.lindneo.dataservice.send('AddToLog',{'book_id':window.lindneo.currentBookId,
+												'page_id':response.result.component.page_id,
+												'id':response.result.component.id,
+												'type':response.result.component.type,
+												'data':componentToJson(response.result.component.data),
+												'operation':'create',
+											});
+            //console.log("MY RESULT",myresult);
+            /*egemen ends*/
             window.lindneo.tlingit.componentHasUpdated (response.result.component,true);
 
             newHistory(response.result.component, 'create');
@@ -268,12 +281,13 @@ window.lindneo.tlingit = (function(window, $, undefined){
             window.lindneo.nisga.createComponent( response.result.component, oldcomponent_id );
             window.lindneo.tsimshian.componentCreated( response.result.component );
             //loadPagesPreviews(response.result.component.page_id);
+            return response.result.component;
 
           },
         function(err){
           
       });
-
+      return resultx;
 
   };
   
@@ -438,7 +452,7 @@ window.lindneo.tlingit = (function(window, $, undefined){
 
     } else {
         
-        console.log(component.data,componentPreviosVersions[component.id].data);
+        //console.log(component.data,componentPreviosVersions[component.id].data);
         var componentDiff = deepDiffMapper.map(component.data, componentPreviosVersions[component.id].data);
 
         
@@ -524,7 +538,10 @@ window.lindneo.tlingit = (function(window, $, undefined){
         $('#'+ response.result.delete).parent().not('#current_page').remove();
         $('#'+ response.result.delete).remove();
         if(oldcomponent != "")
+        {
+        	console.log("REMOVE",oldcomponent);
           window.lindneo.nisga.destroyComponent(oldcomponent,oldcomponent_id);
+        }
         else
           window.lindneo.nisga.destroyComponent(oldcomponent);
 
@@ -869,7 +886,7 @@ var deepDiffMapper = function() {
         VALUE_DELETED: 'deleted',
         VALUE_UNCHANGED: 'unchanged',
         map: function(obj1, obj2) {
-
+        	/*console.log("compare",obj1,obj2);*/
             if (this.isFunction(obj1) || this.isFunction(obj2)) {
                 throw 'Invalid argument. Function given, object expected.';
             }
@@ -911,15 +928,18 @@ var deepDiffMapper = function() {
         },
         compareValues: function(value1, value2) {
             if (value1 === value2) {
+            	/*console.log("CREATED");*/
                 return this.VALUE_UNCHANGED;
             }
             if ('undefined' == typeof(value1)) {
+            	/*console.log("CREATED");*/
                 return this.VALUE_CREATED;
             }
             if ('undefined' == typeof(value2)) {
+            	/*console.log("DELETED");*/
                 return this.VALUE_DELETED;
             }
-
+            /*console.log("UPDATED");*/
             return this.VALUE_UPDATED;
         },
         isFunction: function(obj) {

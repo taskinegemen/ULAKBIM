@@ -439,8 +439,10 @@ var createGraphComponent = function ( event, ui, oldcomponent ) {
 
       if(typeof oldcomponent !== 'undefined'){
         window.lindneo.tlingit.componentHasDeleted( oldcomponent, oldcomponent.id );
+        console.log("Log Kaydı: Eski Grafik Kutusu silindi.",oldcomponent);
       };
-      window.lindneo.tlingit.componentHasCreated( component );
+      var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+      console.log("Log Kaydı: Yeni Grafik Kutusu oluşturuldu.",componentWithId);
 
     },
     onComplete:function (ui){

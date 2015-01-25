@@ -113,6 +113,7 @@ $(document).ready(function(){
               this._super(propertyName, propertyValue);
               break;
           }
+        console.log("Log Kaydı: Şekil Kutusuna ait stil değiştirildi.",this.options.component);
     },
 
     getProperty : function (propertyName){
@@ -247,8 +248,10 @@ var createShapeComponent = function ( event, ui ) {
       };
       if(typeof oldcomponent !== 'undefined'){
         window.lindneo.tlingit.componentHasDeleted( oldcomponent, oldcomponent.id );
+        console.log("Log Kaydı: Eski Grafik Kutusu silindi.",oldcomponent);
       };
-      window.lindneo.tlingit.componentHasCreated( component );
+          var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+          console.log("Log Kaydı: Yeni Şekil Kutusu oluşturuldu.",componentWithId);
     },
     onComplete:function (ui){
       console.log();

@@ -207,8 +207,10 @@ var createCquizComponent = function ( event, ui, oldcomponent ) {
       };
       if(typeof oldcomponent !== 'undefined'){
         window.lindneo.tlingit.componentHasDeleted( oldcomponent, oldcomponent.id );
+        console.log("Log Kaydı: Soru Kartı Kutusu silindi.",oldcomponent);
       };
-      window.lindneo.tlingit.componentHasCreated( component );
+      var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+      console.log("Log Kaydı: Soru Kartı Kutusu oluşturuldu.",componentWithId);
     },
     onComplete:function (ui){
       var mainDiv = $('<div>')

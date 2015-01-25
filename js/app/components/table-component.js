@@ -294,10 +294,7 @@ $(document).ready(function(){
         //console.log(that.options.component.data.table);
         //console.log(that.options.component.data.table[that.TableSelection.start.rows]);
         //console.log(that.options.component.data.table[that.TableSelection.start.rows][that.TableSelection.start.columns]);
-        if (typeof that.options.component.data.table
-          [that.TableSelection.start.rows]
-          [that.TableSelection.start.columns]
-          [node] == "undefined") return null;
+        if (typeof that.options.component.data.table[that.TableSelection.start.rows][that.TableSelection.start.columns][node] == "undefined") return null;
 
         var propertyValue = that.options.component.data.table
           [that.TableSelection.start.rows]
@@ -763,6 +760,7 @@ $(document).ready(function(){
               return this._super(propertyName,propertyValue);
               break;
           }
+
       },
       setProperty : function (propertyName,propertyValue){
         
@@ -772,6 +770,8 @@ $(document).ready(function(){
         console.log(this);
         return;
         */
+        
+
         if(propertyName == 'delete_row')
           this.row_delete(this.options.component, this.TableSelection.end);
         else if(propertyName == 'delete_column')
@@ -785,9 +785,15 @@ $(document).ready(function(){
         else if(propertyName == 'add_column')
           this.column_add(this.options.component, this.TableSelection.end);
         else if(propertyName == 'zindex')
+        {
           this._setProperty("zindex-table",propertyValue);
+          console.log("Log Kaydı: Stil değişti.",this.options.component);
+        }
         else
+        {
           this._setProperty(propertyName,propertyValue);
+          console.log("Log Kaydı: Stil değişti.",this.options.component);
+        }
         
       },
 
@@ -840,14 +846,16 @@ $(document).ready(function(){
         window.lindneo.tlingit.componentHasUpdated( component );
         window.lindneo.nisga.destroyByIdComponent(component.id);
         window.lindneo.nisga.createComponent(component);
+        console.log("Log Kaydı: Bir satır eklendi.",component);
 
 
       },
 
       column_add: function(component, location){
-        console.log(location.columns);
-        console.log(component.data.table[0][0].css);
-        console.log(component);
+        //console.log(location.columns);
+        //console.log(component.data.table[0][0].css);
+        //console.log(component);
+
         //window.lindneo.tlingit.componentHasDeleted( component);
         var newCellData = {
           'attr': {
@@ -874,11 +882,12 @@ $(document).ready(function(){
           component.data.table[key].push(value1);
           });
         });
-        console.log(component.data.table);
+        //console.log(component.data.table);
         //window.lindneo.tlingit.componentHasCreated( component );
         window.lindneo.tlingit.componentHasUpdated( component );
         window.lindneo.nisga.destroyByIdComponent(component.id);
         window.lindneo.nisga.createComponent(component);
+        console.log("Log Kaydı: Bir sütun eklendi.",component);
       },
 
       row_delete: function(component, location){
@@ -928,6 +937,7 @@ $(document).ready(function(){
         window.lindneo.tlingit.componentHasUpdated( component );
         window.lindneo.nisga.destroyByIdComponent(component.id);
         window.lindneo.nisga.createComponent(component);
+        console.log("Log Kaydı: Bir satır silindi.",component);
 
       },
 
@@ -980,6 +990,7 @@ $(document).ready(function(){
         window.lindneo.tlingit.componentHasUpdated( component );
         window.lindneo.nisga.destroyByIdComponent(component.id);
         window.lindneo.nisga.createComponent(component);
+        console.log("Log Kaydı: Bir sütün silindi.",component);
       },
 
       getProperty : function (propertyName){
@@ -1094,8 +1105,9 @@ $(document).ready(function(){
       cell.html(input.val().replace(/\n/g, '<br />'));
       that.keyCapturing();
       
-
+      console.log("Log Kaydı: Bir hücre içerisinde değişiklik yapıldı.",that.options.component);
       that._trigger('update', null, that.options.component );
+
     },
 
     selectionUpdated: function(selection){
@@ -1256,8 +1268,11 @@ var createTableComponent = function (event,ui){
       };
       if(typeof oldcomponent !== 'undefined'){
         window.lindneo.tlingit.componentHasDeleted( oldcomponent, oldcomponent.id );
+        console.log("Log Kaydı: Eski Tablo Kutusu silindi.",oldcomponent);
       };
-      window.lindneo.tlingit.componentHasCreated( component );
+      var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+      console.log("Log Kaydı: Yeni Tablo Kutusu oluşturuldu.",componentWithId);
+
     },
     onComplete:function (ui){
 

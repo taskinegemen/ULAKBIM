@@ -532,9 +532,9 @@ var removeRow = function(type, row_number){
             }
           }
         };
-
+        
         window.lindneo.tlingit.componentHasCreated( component );
-
+        console.log("component created",component);
       },
       onComplete:function (ui){
         questionWindowElement = ui ;
@@ -930,7 +930,7 @@ var removeRow = function(type, row_number){
   */
       $('#create-mquiz-close-button').trigger('click');
       //console.log(component);
-      
+      console.log("component created",component);
       window.lindneo.tlingit.componentHasCreated( component );
     });
 

@@ -669,13 +669,22 @@ function doRestore() {
 
         $('.toolbox .tool').unbind( "change" );
         $('.toolbox-btn').unbind( "click" );
-        //console.log(component);
+        
               //return;
-
+        var counter=0;
+        var undefined_counter=0;
         $('.toolbox .tool, .toolbox-btn').each(function (index) {
 
               var rel=$(this).attr('rel');
               var relValue = component.getProperty(rel);
+              if(typeof relValue == 'undefined')
+              {
+                undefined_counter++;
+              }
+              counter++;
+
+              console.log("relValue->",relValue,rel);
+              if(rel)
               if(rel == "rotate"){
                 //relValue =
                 
@@ -713,7 +722,7 @@ function doRestore() {
                 });
 
              } else if( $(this).hasClass('checkbox') || $(this).hasClass('radio') ){
-		console.log("bold staff");
+		//console.log("bold staff");
                 $(this).change(function(){ 
                   var isChecked= $(this).is(':checked')    ; 
                   var newValue = ( isChecked == true ? $(this).attr('activeVal') : $(this).attr('passiveVal') );
@@ -749,8 +758,15 @@ function doRestore() {
 
              }
         });
+      
+          if(undefined_counter==counter){
+            console.log("just click");
+          }
+          console.log("counter compare=>",undefined_counter,counter);
+
       });
       this.makeMultiSelectionBox();
+      console.log("counter compare=>");
      /*
       while(this.selectedComponents.length > 0) {
         this.selectedComponents.pop();

@@ -188,8 +188,10 @@ var createWrapComponent = function ( event, ui, oldcomponent ) {
         };
         if(typeof oldcomponent !== 'undefined'){
           window.lindneo.tlingit.componentHasDeleted( oldcomponent, oldcomponent.id );
+          console.log("Log Kaydı: Metinle Çevrele Kutusu silindi.",oldcomponent);
         };
-        window.lindneo.tlingit.componentHasCreated( component );
+        var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+        console.log("Log Kaydı: Metinle Çevrele Kutusu oluşturuldu.",componentWithId);
       },
       onComplete:function (ui){
         var compeleteForm = $("<form>")
