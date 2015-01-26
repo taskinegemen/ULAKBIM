@@ -192,8 +192,10 @@ var createSoundComponent = function (event,ui){
       };
       if(typeof oldcomponent !== 'undefined'){
         window.lindneo.tlingit.componentHasDeleted( oldcomponent, oldcomponent.id );
+        console.log("Log Kaydı: Eski Ses Kutusu silindi.",oldcomponent);
       };
-      window.lindneo.tlingit.componentHasCreated( component );
+      var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+      console.log("Log Kaydı: Yeni Ses Kutusu oluşturuldu.",componentWithId);
     },
     onComplete:function (ui){
 

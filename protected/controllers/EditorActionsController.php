@@ -1718,6 +1718,18 @@ right join book using (book_id) where book_id='$bookId' and type IN ('rtext','te
 		Yii::log($msg,'info');
 	}
 
+	public function actionAddToLog(){
+
+		print_r("merhaba dünya");
+		//error_log("\nselam\n");
+		//error_log(print_r($_POST,1));
+		$component_id=json_decode(Yii::app()->request->getPost('component_id'));
+		error_log("Component Id:".$component_id);
+		
+		print_r($_POST);die();
+
+	}
+
 
 	// Uncomment the following methods and override them if needed
 	/*

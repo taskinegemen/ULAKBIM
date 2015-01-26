@@ -237,10 +237,13 @@ var createGaleryComponent = function (event,ui, oldcomponent){
           }
         }
       };
-      if(typeof oldcomponent !== 'undefined'){
+      if(typeof oldcomponent !== 'undefined')
+      {
         window.lindneo.tlingit.componentHasDeleted( oldcomponent, oldcomponent.id );
-      };
-      window.lindneo.tlingit.componentHasCreated( component );
+        console.log("Log Kaydı: Eski Galeri Kutusu silindi.",oldcomponent);
+      }
+      var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+      console.log("Log Kaydı: Yeni Galeri Kutusu oluşturuldu.",componentWithId);
     },
     onComplete:function (ui){
 

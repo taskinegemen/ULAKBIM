@@ -268,10 +268,11 @@ window.lindneo.dataservice = (function( $ ) {
   }
   var send = function( action, data, successCallback, failCallback ,async ){
 
-    if(typeof async == "undefined") async = true;
+    if(typeof async == "undefined") async = false;
     if(typeof successCallback == "undefined") successCallback = function () {};
     if(typeof failCallback == "undefined") failCallback = function () {};
     var that = this;
+    that.sendresult="";
     var requestRoute='EditorActions' +'/' + action;
     //console.log(data);
     //console.log(action);
@@ -286,7 +287,7 @@ window.lindneo.dataservice = (function( $ ) {
     });
     
     
-    $.ajax({
+    var resulty=$.ajax({
 
        'xhr': function(){
          var xhr = new window.XMLHttpRequest();
@@ -341,8 +342,10 @@ window.lindneo.dataservice = (function( $ ) {
       'success': function(data) {
         that.ProgressOfTop();
          //that.removeProgressBar(progressbar.container);
-         //console.log(data);
-         return successCallback(data); 
+         
+         var callbackResult=successCallback(data);
+         that.sendresult=callbackResult;
+         return callbackResult; 
       },
       //'error': failCallback,
       error: function () {
@@ -363,6 +366,9 @@ window.lindneo.dataservice = (function( $ ) {
         $('#save_status').removeClass('icon-arrows-cw animate-spin size-30 light-blue');
       }
     });
+    //console.log(that.sendresult);
+    return that.sendresult;
+    
   };
 
   return {

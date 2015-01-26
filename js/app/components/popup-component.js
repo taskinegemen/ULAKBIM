@@ -162,8 +162,10 @@ var createPopupComponent = function ( event, ui, oldcomponent ) {
       };
       if(typeof oldcomponent !== 'undefined'){
         window.lindneo.tlingit.componentHasDeleted( oldcomponent, oldcomponent.id );
+        console.log("Log Kaydı: Eski Açılır Pencere Kutusu silindi.",oldcomponent);
       };
-      window.lindneo.tlingit.componentHasCreated( component );
+      var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+      console.log("Log Kaydı: Yeni Açılır Pencere Kutusu oluşturuldu.",componentWithId);
     },
     onComplete:function (ui){
       var mainDiv = $('<div>')

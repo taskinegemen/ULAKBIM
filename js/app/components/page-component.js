@@ -63,14 +63,16 @@ $(document).ready(function(){
               return this._super(propertyName,propertyValue);
               break;
           }
+
+
       },
       setProperty : function (propertyName,propertyValue){
-        //console.log(propertyName);
+        
         //console.log(propertyValue);
       
         this._setProperty(propertyName,propertyValue);
+        console.log("Log Kaydı: Sayfa Kutusuna ait stil değişti.",this.options.component);
         //this.autoResize();
-      
       },
 
       getProperty : function (propertyName){
@@ -197,5 +199,8 @@ $(document).ready(function(){
       }
     };
 
-    window.lindneo.tlingit.componentHasCreated(component);
+    
+    var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+    console.log("Log Kaydı: Yeni Sayfa Numarası Kutusu oluşturuldu.",componentWithId);
+
   };

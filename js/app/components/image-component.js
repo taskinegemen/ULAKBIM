@@ -94,8 +94,16 @@ $(document).ready(function(){
             component.data.self.image_height = image_height;
 
             
-            window.lindneo.tlingit.componentHasCreated(component);
-            window.lindneo.tlingit.componentHasDeleted(that.options.component, that.options.component.id);
+            /*window.lindneo.tlingit.componentHasCreated(component);
+            window.lindneo.tlingit.componentHasDeleted(that.options.component, that.options.component.id);*/
+            if(typeof that.options.component !== 'undefined')
+            {
+              window.lindneo.tlingit.componentHasDeleted( that.options.component, that.options.component.id );
+              console.log("Log Kaydı: Eski Görsel Kutusu silindi.",that.options.component);
+            }
+            var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+            console.log("Log Kaydı: Yeni Görsel Kutusu oluşturuldu.",componentWithId);
+
             
           };
         };
@@ -249,8 +257,10 @@ var createImageComponent = function ( event, ui ,oldcomponent) {
         };
       if(typeof oldcomponent !== 'undefined'){
         window.lindneo.tlingit.componentHasDeleted( oldcomponent, oldcomponent.id );
+        console.log("Log Kaydı: Eski Görsel Kutusu silindi.",oldcomponent);
       };
-      window.lindneo.tlingit.componentHasCreated( component );
+      var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+      console.log("Log Kaydı: Yeni Görsel Kutusu oluşturuldu.",componentWithId);
     },
     onComplete:function (ui){
       var mainDiv = $('<div>')

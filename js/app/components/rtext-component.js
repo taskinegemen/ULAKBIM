@@ -123,7 +123,6 @@ $(document).ready(function(){
         //$( ".rtext-controllers div:contains('asdasdsa')" ).css( "text-decoration", "" );
 
         */
-        console.log(propertyName+"-"+propertyValue);
         switch (propertyName){
           case 'color':
             /*this.rtextElement.focus();*/
@@ -667,6 +666,7 @@ $(document).ready(function(){
         console.log(propertyValue);
       
         this._setProperty(propertyName,propertyValue);
+        console.log("Log kaydı: Zengin Metin Kutusuna ait stil değiştirildi.",this.options.component);
         this.autoResize();
       
       },
@@ -729,7 +729,7 @@ $(document).ready(function(){
       _change: function ( content) {
         
         this.options.component.data.rtextdiv.val = content;
-
+        console.log("Log kaydı: Zengin Metin Kutusunun içeriği değiştirildi.",this.options.component);
         this._super();
       }
 
@@ -823,5 +823,6 @@ var html_tag_replace = function (str){
       }
     };
 
-    window.lindneo.tlingit.componentHasCreated(component);
+    var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+    console.log("Log Kaydı: Yeni Zengin Metin Kutusu oluşturuldu.",componentWithId);
   };

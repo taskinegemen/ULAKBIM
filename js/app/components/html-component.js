@@ -170,8 +170,11 @@ var createHtmlComponent = function ( event, ui, oldcomponent ) {
      };
      if(typeof oldcomponent !== 'undefined'){
         window.lindneo.tlingit.componentHasDeleted( oldcomponent, oldcomponent.id );
+        console.log("Log Kaydı: HTML Kutusu silindi.",oldcomponent);
+        component.data.self.css=oldcomponent.data.self.css;
       };
-      window.lindneo.tlingit.componentHasCreated( component );
+      var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+      console.log("Log Kaydı: HTML Kutusu oluşturuldu.",componentWithId);
     },
     onComplete:function (ui){
       console.log($(ui).parent().parent());

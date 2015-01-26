@@ -53,7 +53,6 @@ $(document).ready(function(){
 
       setPropertyofObject : function (propertyName,propertyValue){
         var that = this;
-        
         switch (propertyName){
             case 'fast-style': 
                 this.getSettable().attr[propertyName]=propertyValue;
@@ -519,7 +518,14 @@ $(document).ready(function(){
       setProperty : function (propertyName,propertyValue){
         //console.log(propertyName);
         //console.log(propertyValue);
-      
+        var pre_text;
+        if(this.options.component.data.self.attr.componentType=="side-text"){
+          pre_text=" Yazı Kutusu'na ";
+        }
+        else
+          pre_text=" Metin Kutusu'na ";
+
+        console.log("Log kaydı:"+pre_text+"ait stil değiştirildi.",this.options.component);
         this._setProperty(propertyName,propertyValue);
         this.autoResize();
       
@@ -588,8 +594,15 @@ $(document).ready(function(){
 
       _change: function ( ui ) {
 
+        var pre_text;
         this.options.component.data.textarea.val = $(ui.target).val();
+        if(this.options.component.data.self.attr.componentType=="side-text"){
+          pre_text=" Yazı Kutusunun ";
+        }
+        else
+          pre_text=" Metin Kutusunun ";
 
+        console.log("Log Kaydı:"+pre_text+"içeriği değiştirildi.",this.options.component);
         this._super();
       }
 
@@ -601,7 +614,7 @@ $(document).ready(function(){
 
 
   var createTextComponent = function ( event, ui ,type) {
-
+    
     var component = {
       'type' : 'text',
       'data': {
@@ -650,5 +663,12 @@ $(document).ready(function(){
       }
     };
 
-    window.lindneo.tlingit.componentHasCreated(component);
+    var componentWithId=window.lindneo.tlingit.componentHasCreated(component);
+    var pre_text;
+        if(componentWithId.data.self.attr.componentType=="side-text"){
+          pre_text=" Yazı Kutusu ";
+        }
+        else
+          pre_text=" Metin Kutusu ";
+    console.log("Log Kaydı: Yeni"+pre_text+"oluşturuldu.",componentWithId);
   };

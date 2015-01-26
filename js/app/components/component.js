@@ -27,7 +27,7 @@ $(document).ready(function(){
     },
 
     _create: function (params) {
-
+      /*console.log("Component created!",params);*/
       var that = this;
       window.lindneo.tlingit.componentPreviosVersions[that.options.component.id]= JSON.parse(JSON.stringify(that.options.component));  ;
       that.overwriteParams = params;
@@ -69,7 +69,6 @@ $(document).ready(function(){
           },
           'resize':function(event,ui){
             //console.log(this);
-            //console.log("resize");
             if( typeof this.resize_pass != "undefined" )
               this.resize_pass(event,ui);
 
@@ -140,7 +139,7 @@ $(document).ready(function(){
             snapMode: 'both',
             'alsoDrag':'.ui-draggable.selected',
             'stop': function(event, ui){
-            //console.log();
+            
 
               $( "#guide-v, #guide-h" ).hide(); 
               that._resizeDraggable( event, ui );
@@ -149,6 +148,37 @@ $(document).ready(function(){
                 //console.log($('.selected').not($(this)));
                 $('.selected').not(this).trigger('alsoDragStopped');
               }
+            var pre_text="";
+            if(that.options.component.type=="puzzle"){pre_text=" Yap-boz Kutusu";}
+            else if(that.options.component.type=="cquiz"){pre_text=" Soru Kartı Kutusu";}
+            else if(that.options.component.type=="plumb"){pre_text=" Sıralı Bulmaca Kutusu";}
+            else if(that.options.component.type=="wrap"){pre_text=" Metin Çevreleme Kutusu";}
+            else if(that.options.component.type=="page"){pre_text=" Sayfa Numaralandırma Kutusu";}
+            else if(that.options.component.type=="plink"){pre_text=" Sayfa Bağlantısı Kutusu";}
+            else if(that.options.component.type=="link"){pre_text=" Bağlantı Kutusu";}
+            else if(that.options.component.type=="latex"){pre_text=" Latex Kutusu";}
+            else if(that.options.component.type=="html"){pre_text=" HTML Kutusu";}
+            else if(that.options.component.type=="mquiz"){pre_text=" Soru Kutusu";}
+            else if(that.options.component.type=="popup"){pre_text=" Açılır Pencere Kutusu";}
+            else if(that.options.component.type=="sound"){pre_text=" Ses Kutusu";}
+            else if(that.options.component.type=="video"){pre_text=" Video Kutusu";}
+            else if(that.options.component.type=="shape"){pre_text=" Şekil Kutusu";}
+            else if(that.options.component.type=="grafik"){pre_text=" Grafik Kutusu";}
+            else if(that.options.component.type=="galery"){pre_text=" Galeri Kutusu";}
+            else if(that.options.component.type=="image"){pre_text=" Görsel Kutusu";}
+            else if(that.options.component.type=="table"){pre_text=" Tablo Kutusu";}
+            else if(that.options.component.type=="rtext"){pre_text=" Zengin Metin Kutusu";}
+            else if(that.options.component.type="text")
+            {
+              if(that.options.component.data.self.attr.componentType=="side-text"){
+                pre_text=" Yazı Kutusu";
+              }
+              else
+                pre_text=" Metin Kutusu";
+            }
+            console.log("Log Kaydı:"+pre_text+"nun konumu değiştirildi",that.options.component);
+
+
             },
 
             drag: function( event, ui ){
@@ -362,6 +392,36 @@ $(document).ready(function(){
         'stop': function( event, angle){
 
           that._rotate(event, angle);
+            var pre_text="";
+            if(that.options.component.type=="puzzle"){pre_text=" Yap-boz Kutusu";}
+            else if(that.options.component.type=="cquiz"){pre_text=" Soru Kartı Kutusu";}
+            else if(that.options.component.type=="plumb"){pre_text=" Sıralı Bulmaca Kutusu";}
+            else if(that.options.component.type=="wrap"){pre_text=" Metin Çevreleme Kutusu";}
+            else if(that.options.component.type=="page"){pre_text=" Sayfa Numaralandırma Kutusu";}
+            else if(that.options.component.type=="plink"){pre_text=" Sayfa Bağlantısı Kutusu";}
+            else if(that.options.component.type=="link"){pre_text=" Bağlantı Kutusu";}
+            else if(that.options.component.type=="latex"){pre_text=" Latex Kutusu";}
+            else if(that.options.component.type=="html"){pre_text=" HTML Kutusu";}
+            else if(that.options.component.type=="mquiz"){pre_text=" Soru Kutusu";}
+            else if(that.options.component.type=="popup"){pre_text=" Açılır Pencere Kutusu";}
+            else if(that.options.component.type=="sound"){pre_text=" Ses Kutusu";}
+            else if(that.options.component.type=="video"){pre_text=" Video Kutusu";}
+            else if(that.options.component.type=="shape"){pre_text=" Şekil Kutusu";}
+            else if(that.options.component.type=="grafik"){pre_text=" Grafik Kutusu";}
+            else if(that.options.component.type=="galery"){pre_text=" Galeri Kutusu";}
+            else if(that.options.component.type=="image"){pre_text=" Görsel Kutusu";}
+            else if(that.options.component.type=="table"){pre_text=" Tablo Kutusu";}
+            else if(that.options.component.type=="rtext"){pre_text=" Zengin Metin Kutusunun ";}
+            else if(that.options.component.type=="text")
+            { 
+              if(that.options.component.data.self.attr.componentType=="side-text"){
+                pre_text=" Yazı Kutusu";
+              }
+              else
+                pre_text=" Metin Kutusu";
+            }
+            console.log("Log Kaydı:"+pre_text+" döndürüldü.",that.options.component);
+
           }
       });
 
@@ -722,7 +782,40 @@ $(document).ready(function(){
       
       this.options.component.data.self.css.width = component_width + "px";
       this.options.component.data.self.css.height = component_height + "px";
-   
+      
+      var pre_text;
+      if(this.options.component.type=="puzzle"){pre_text=" Yap-boz Kutusu";}
+      else if(this.options.component.type=="cquiz"){pre_text=" Soru Kartı Kutusu";}
+      else if(this.options.component.type=="plumb"){pre_text=" Sıralı Bulmaca Kutusu";}
+      else if(this.options.component.type=="wrap"){pre_text=" Metin Çevreleme Kutusu";}
+      else if(this.options.component.type=="page"){pre_text=" Sayfa Numaralandırma Kutusu";}
+      else if(this.options.component.type=="plink"){pre_text=" Sayfa Bağlantısı Kutusu";}
+      else if(this.options.component.type=="link"){pre_text=" Bağlantı Kutusu";}
+      else if(this.options.component.type=="latex"){pre_text=" Latex Kutusu";}
+      else if(this.options.component.type=="html"){pre_text=" HTML Kutusu";}
+      else if(this.options.component.type=="mquiz"){pre_text=" Soru Kutusu";}
+      else if(this.options.component.type=="popup"){pre_text=" Açılır Pencere Kutusu";}
+      else if(this.options.component.type=="sound"){pre_text=" Ses Kutusu";}
+      else if(this.options.component.type=="video"){pre_text=" Video Kutusu";}
+      else if(this.options.component.type=="shape"){pre_text=" Şekil Kutusu";}
+      else if(this.options.component.type=="grafik"){pre_text=" Grafik Kutusu";}
+      else if(this.options.component.type=="galery"){pre_text=" Galeri Kutusu";}
+      else if(this.options.component.type=="image"){pre_text=" Görsel Kutusu";}
+      else if(this.options.component.type=="table"){pre_text=" Tablo Kutusu";}
+      else if(this.options.component.type=="rtext"){pre_text=" Zengin Metin Kutusunun ";}
+      else if(this.options.component.type=="text")
+      {
+        if(this.options.component.data.self.attr.componentType=="side-text"){
+          pre_text=" Yazı Kutusu";
+        }
+        else
+          pre_text=" Metin Kutusu";
+      }
+      else
+      {
+        pre_text=this.options.component.type;
+      }
+      console.log("Log Kaydı:"+pre_text+"nun boyutları değiştirildi.",this.options.component);
       this._trigger('update', null, this.options.component );
       this._selected(event, ui)
       
@@ -748,7 +841,6 @@ $(document).ready(function(){
       this.options.component.data.self.css.left = ui.position.left + "px";
       this.options.component.data.self.css.top = ui.position.top + "px";
     
-      
       this._trigger('update', null, this.options.component );
       this._selected(event, ui);
     },
@@ -855,6 +947,7 @@ $(document).ready(function(){
       //console.log(propertyName);
       //console.log(propertyValue);
       return this._setPropertyofObject(propertyName,propertyValue) ;
+      
     },
     _setPropertyofObject : function (propertyName,propertyValue){
     //console.log($('#'+this.options.component.id).slickWrap({ cutoff:propertyValue }));
@@ -948,6 +1041,7 @@ $(document).ready(function(){
     },
     setProperty : function (propertyName,propertyValue){
       this._setProperty(propertyName,propertyValue);
+
     },
     _setProperty : function (propertyName,propertyValue){
         console.log(propertyName);
@@ -956,6 +1050,7 @@ $(document).ready(function(){
         this.setFromData();
         if(propertyName != "component_alignment")
           this._trigger('update', null, this.options.component );
+
         
     },
 
