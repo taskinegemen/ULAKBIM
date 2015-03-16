@@ -920,7 +920,14 @@ class epub3 {
 		    $("#facybox").css({"top":top+"px","left":left+"px"});
 		  });
 		}
-			JPuzzle();
+			try
+			{
+				JPuzzle();
+			}
+			catch(err)
+			{
+
+			}
 
 		});
 		//]]>
