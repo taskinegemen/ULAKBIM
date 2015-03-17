@@ -18,6 +18,22 @@
     </div>
   </div>
 </div>
+
+<!--begin print modal-->
+<div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="height:50% !important;padding-top:20%;">
+    <div class="modal-content" style="height:80px !important;overflow:visible;">
+      <div class="modal-body" style="height: 100%;overflow: auto;">
+        <center>
+        	<h2>Lütfen bekleyiniz...</h2>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--end print modal-->
+
 <?php
 /* @var $this BookController */
 /* @var $model Book */
@@ -96,7 +112,22 @@ if($chapter_list)
 
 
 	$(document).ready(function(){
-		
+		$("#print-pdf").click(function(event){
+
+			$('#printModal').on('show.bs.modal', function (e) {
+				setTimeout(function(){
+					window.lindneo.dataservice.send('PrintPdfBook',{'bookId':window.lindneo.currentBookId});
+					location.reload();
+				}, 1500);
+
+			});
+			$('#printModal').modal('show');
+
+
+			
+			
+
+		});
 		$("#generic-color").click(function(event){
 			event.preventDefault();
 
@@ -349,6 +380,8 @@ if($chapter_list)
 			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportPdfBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("PDF Olarak Kaydet"); ?></i></a></li>
 			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("EPub Olarak Kaydet"); ?></i></a></li>
 			         <li><a href="<?php echo $this->createUrl("Lepub/Export", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("LEPub Olarak Kaydet"); ?></i></a></li>
+			         <li id="print-pdf"><a> <i class="icon-doc-inv"></i><?php _e("Çıktı Al"); ?></i></a></li>
+
         
 			         <!--<li>
 			         	<?php
