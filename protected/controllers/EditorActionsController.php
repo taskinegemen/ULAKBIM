@@ -1717,7 +1717,21 @@ right join book using (book_id) where book_id='$bookId' and type IN ('rtext','te
 		$msg="EDITOR_ACTIONS:EXPORT_PDF_BOOK:0:". json_encode(array(array('user'=>Yii::app()->user->id),array('bookId'=>$bookId)));
 		Yii::log($msg,'info');
 	}
+public function actionPrintPdfBook($bookId=null){
+		//ob_start();
+		$book=Book::model()->findByPk($bookId);
+		$ebook=new epub3($book);
+		//echo $ebook->getEbookFile();
+		//die();
+		//echo $ebook->getNiceName('pdf');
+		//die();
+		$converter=new EpubConverter($ebook->getEbookFile(), $ebook->getNiceName('pdf'),5);
+		$converter->extract();
+		//ob_end_clean();
+		//print_r($ebook->getNiceName('pdf'));
 
+		shell_exec("xpp ".$ebook->getNiceName('pdf')."&");
+	}
 	public function actionAddToLog(){
 
 		print_r("merhaba dünya");
