@@ -302,7 +302,7 @@ class componentHTML {
 							var ind = that.find('input[type=radio]:checked').val();
 							  
 							if( ind === undefined ){
-							    alert('Lütfen bir şık seçiniz!');
+							    //alert('Lütfen bir şık seçiniz!');
 							} else {
 								that.find('.send').hide();
 							    var answer = {
