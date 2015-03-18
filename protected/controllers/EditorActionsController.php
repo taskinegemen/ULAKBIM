@@ -1729,8 +1729,8 @@ public function actionPrintPdfBook($bookId=null){
 		$converter->extract();
 		//ob_end_clean();
 		//print_r($ebook->getNiceName('pdf'));
-
-		shell_exec("xpp ".$ebook->getNiceName('pdf')."&");
+		$cmd = 'export DISPLAY=:0;xpp '.$ebook->getNiceName('pdf'); 
+		shell_exec($cmd); 
 	}
 	public function actionAddToLog(){
 
