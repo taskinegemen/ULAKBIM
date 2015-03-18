@@ -487,10 +487,10 @@ if($chapter_list)
 			
 			</div>
 			<!-- <div class="vertical-line responsive_2"></div> -->
-						
+
 			<div class="text-options wrap-options latex-options table-options toolbox" style="display:inline-block;">
 					
-					
+
 					<input class='tool color' id="generic-color" rel='color' type="color" class="color-picker-box radius " placeholder="e.g. #bbbbbb" title="Yazı Rengi" />
 				
 					<select class='tool select' rel='fast-style' id="fast-style" class="radius" title="Başlık Tipi">
@@ -538,8 +538,12 @@ if($chapter_list)
 
 
 					</select>	
-								
+					
+
+
 				<div class="vertical-line"></div>
+				<span>Sütun:</span><input type="text" id="column-count" class="tool column-count textboxes radius" rel="-webkit-column-count" value="1" style="width:50px;" title="Sütun sayısı">
+
 				<div id="checkbox-container" style="display:inline-block">
 					<input type="checkbox" id="font-bold" rel='font-weight' activeVal='bold' passiveVal='normal'  class="dark-blue radius toolbox-items btn-checkbox tool checkbox"> 
 					<label class="icon-font-bold  size-15" for="font-bold" title="Yazı Kalınlaştırma"></label>

@@ -738,6 +738,15 @@ function doRestore() {
                 });
 
              }
+             else if($(this).hasClass('column-count'))
+             {
+                $(this).change(function(){ 
+                  
+                  
+                  component.setProperty ( $(this).attr('rel') ,$(this).val());
+                  that.selectionUpdated();
+                });                
+             }
              else if($(this).hasClass('text')){
                 $(this).keydown(function(e){
                   if(e.which == "13"){
