@@ -578,6 +578,9 @@ $(document).ready(function(){
                     case 'opacity':
                     var default_val='1';
                     break;
+                    case '-webkit-column-count':
+                    var default_val='1';
+                    break;
                 }
                 var return_val=this.getSettable().css[propertyName];
 
@@ -620,6 +623,7 @@ $(document).ready(function(){
       'data': {
         'textarea':{
           'css' : {
+            '-webkit-column-count': 1,
             'width':'100%',
             'height':'100%',
             'margin': '0',
