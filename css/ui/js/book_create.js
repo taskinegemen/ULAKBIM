@@ -18,7 +18,15 @@
            var items = [];
            $.each( data, function( key, val ) {
              //items.push('<div class="" id="uniform-templates_'+key+'"><span class=""><input class="uniform" id="templates_'+key+'" value="'+val.id+'" type="radio" name="templates"></span><label for="templates_'+key+'"><img src="'+val.thumbnail+'" width="150px" height="150px">'+val.title+'</label><br></div>');
+            if(key==0)
+                {
+                    items.push('<br><br><br><br><p>Sık Kullanılan Şablonlar</p><hr>');
+                }
             items.push('<input id="templates_'+key+'" value="'+val.id+'" type="radio" name="templates"><label for="templates_'+key+'"><img src="'+val.thumbnail+'" width="150px" height="150px">'+val.title+'</label><br>');
+            if(key==4)
+                {
+                    items.push('<br><br><br><br><p>Seyrek Kullanılan Şablonlar</p><hr>');
+                }
 
            });
         $('#templates').html(items);         
