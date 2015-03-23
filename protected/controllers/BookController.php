@@ -193,6 +193,15 @@ class BookController extends Controller
 		$book["templates"] = ( isset( $_POST['templates'] ) ) ? $_POST['templates'] : false ;
 		$book["pdf"] = ( isset( $_FILES['pdf'] ) ) ? $_FILES['pdf'] : false ;
 		
+		if($book["templates"])
+		{
+			$template=Book::model()->find('book_id=:book_id',array(':book_id'=>$book["templates"]));
+			if($template)
+			{
+				$template->pdf_file.="+";
+				$template->save();
+			}
+		}
 		if ($book["book_type"] & $book["book_name"] & $book["book_author"] & $book["workspaces"]) {
 			if ($book["book_type"]=='epub') {  
 				$this->layout=false;
@@ -206,6 +215,7 @@ class BookController extends Controller
 				$bookSize=explode('x', $book['book_size']);
 				$newBook->setPageSize($bookSize[0],$bookSize[1]);
 				$newBook->setData('template_id',$book['templates']);
+
 
 				if ($newBook->save()) {
 					$msg="BOOK:CREATE:0:". json_encode(array(array('user'=>$userid),array('BookId'=>$newBook->book_id,'workspaceId'=>$newBook->workspace_id,'bookType'=>$book['book_type'])));
@@ -411,7 +421,7 @@ class BookController extends Controller
 	    $templateBooks=array();
 		foreach ($templateWorkspaces as $key => $templateWorkspace) {
 			$temp = Book::model()->findAll(array(
-		    'condition'=>'workspace_id=:workspace_id',
+		    'condition'=>'workspace_id=:workspace_id  ORDER BY pdf_file DESC',
 		    'params'=>array(':workspace_id'=>$templateWorkspace['workspace_id']),
 			));
 
@@ -424,9 +434,11 @@ class BookController extends Controller
 		}
 
 		$main_templates= Book::model()->findAll(array(
-		    'condition'=>'workspace_id=:workspace_id',
-		    'params'=>array(':workspace_id'=>'layouts'),
+		    'condition'=>'workspace_id=:workspace_id ORDER BY pdf_file DESC',
+		    'params'=>array(':workspace_id'=>'layouts',
+		    ),
 		));
+		//print_r($main_templates);die();
 		foreach ($main_templates as $key2 => $tem) {
 				$pageSize=$tem->getPageSize();
 				if ($pageSize['width']==$width & $pageSize['height']==$height) {

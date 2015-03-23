@@ -599,7 +599,8 @@ class OrganisationsController extends Controller
 
 	public function actionTemplates($id)
 	{
-		$templates=Book::model()->findAll('workspace_id=:workspace_id',array('workspace_id'=>$id));
+		$templates=Book::model()->findAll('workspace_id=:workspace_id ORDER BY pdf_file DESC',array('workspace_id'=>$id));
+		//print_r($templates);die();
 		$this->render('templates',array(
 			'templates'=>$templates,
 			'workspace_id'=>$id
