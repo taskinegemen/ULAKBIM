@@ -380,6 +380,8 @@ if($chapter_list)
 			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportPdfBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("PDF Olarak Kaydet"); ?></i></a></li>
 			         <li><a href="<?php echo $this->createUrl("EditorActions/ExportBook", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("EPub Olarak Kaydet"); ?></i></a></li>
 			         <li><a href="<?php echo $this->createUrl("Lepub/Export", array('bookId' => $model->book_id ));?>"> <i class="icon-doc-inv"></i><?php _e("LEPub Olarak Kaydet"); ?></i></a></li>
+			   		 <li><a href="<?php echo $this->createUrl("help/pardus.pdf");?>" download> <i class="icon-doc-inv"></i><?php _e("Kullanıcı Klavuzu"); ?></i></a></li>
+
 			         <li id="print-pdf"><a> <i class="icon-doc-inv"></i><?php _e("Çıktı Al"); ?></i></a></li>
 
         

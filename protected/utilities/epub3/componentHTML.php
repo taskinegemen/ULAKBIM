@@ -1783,7 +1783,7 @@ if ($data->self->attr->componentType == "side-text" ){
 		$container.=" 
 		<div id='$rtext_id' ".$attr." ".$css." class='widgets-rw panel-scrolling-rw scroll-horizontal-rw exclude-auto-rw'>
 
-			<div class='rtext frame-rw' style='width:100%;height:100%'>
+			<div class='rtext frame-rw' style='width:100%;height:100%;overflow-y:scroll'>
 
 				".$tidy."
 			
